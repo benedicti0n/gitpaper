@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { DotPattern } from "@/components/magicui/dot-pattern";
-import { NavBar } from "@/components/ui/tubelight-navbar";
+import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,11 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <DotPattern width={32} height={32} />
-        {children}
-      </body>
-    </html>
-  );
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <DotPattern width={32} height={32} />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }

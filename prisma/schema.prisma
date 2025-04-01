@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Platform {
+  EXTENSION
+  MOBILE
+  DESKTOP
+}
+
+model User {
+  id                     String                @id @default(cuid()) // userId
+  email                  String                @unique
+  platformsConnectedTo   PlatformsConnectedTo? @relation("UserPlatforms", fields: [platformsConnectedToId], references: [id])
+  platformsConnectedToId String?               @unique // Added @unique to enforce one-to-one
+  wallpapers             UserWallpaper[]
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+}
+
+model PlatformsConnectedTo {
+  id        String   @id @default(cuid())
+  extension Boolean  @default(false)
+  mobile    Boolean  @default(false)
+  desktop   Boolean  @default(false)
+  user      User?    @relation("UserPlatforms") // Only define relation name here
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserWallpaper {
+  id        String   @id @default(cuid()) // wallpaperId
+  platform  Platform
+  link      String // wallpaperLink
+  ref       String // wallpaperRef
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
