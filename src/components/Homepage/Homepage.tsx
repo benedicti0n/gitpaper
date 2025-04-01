@@ -25,11 +25,11 @@ const Homepage = () => {
     };
 
     return (
-        <div className="w-full h-auto flex flex-col items-center relative">
+        <div className="w-2/3 mx-auto border min-h-screen flex flex-col items-center relative">
             <div className="w-full h-full flex flex-col items-center mt-56 py-16">
-                <span className='text-8xl font-extrabold italic'>
+                <span className='text-8xl font-extrabold'>
                     Git
-                    <LineShadowText shadowColor='black'>
+                    <LineShadowText shadowColor='black' className='italic'>
                         Paper
                     </LineShadowText>
                 </span>
@@ -40,6 +40,7 @@ const Homepage = () => {
                         onChange={(e) => setUsername(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder="Enter GitHub username"
+                        className='bg-white'
                     />
                     <Button onClick={() => handleSearch()}>
                         <LucideSearch />

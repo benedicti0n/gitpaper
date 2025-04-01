@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { DotPattern } from "@/components/magicui/dot-pattern";
+import { NavBar } from "@/components/ui/tubelight-navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
