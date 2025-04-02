@@ -1,12 +1,14 @@
-import { NavBar } from '@/components/ui/tubelight-navbar'
-import React from 'react'
+import DownloadSection from "@/components/DownloadSection";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+import React from "react";
 
 const page = () => {
-    return (
-        <div>
-            <NavBar />
-        </div>
-    )
-}
+  return (
+    <div>
+      <NavBar />
+      <DownloadSection />
+    </div>
+  );
+};
 
-export default page
+export default page;
