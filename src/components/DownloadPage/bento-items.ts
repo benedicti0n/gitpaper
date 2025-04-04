@@ -1,6 +1,5 @@
 import { IoExtensionPuzzle } from "react-icons/io5";
 import { IoLogoGooglePlaystore } from "react-icons/io5";
-import { FaChrome } from "react-icons/fa";
 import { CgWebsite } from "react-icons/cg";
 import { FaDesktop } from "react-icons/fa";
 

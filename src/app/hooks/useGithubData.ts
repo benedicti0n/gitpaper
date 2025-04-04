@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
+import { useGithubDataStore } from "@/store";
 
 export const useGithubData = () => {
-    const [githubData, setGithubData] = useState(null);
+    const { setGithubData } = useGithubDataStore()
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -21,6 +22,7 @@ export const useGithubData = () => {
                 { headers: { "Content-Type": "application/json" } } // Headers
             );
 
+            console.log(response.data);
             setGithubData(response.data); // Axios already parses JSON
         } catch (err) {
             console.error("GitHub API Fetch Error:", err);
@@ -31,5 +33,5 @@ export const useGithubData = () => {
         }
     };
 
-    return { githubData, fetchGithubData, loading, error };
+    return { fetchGithubData, loading, error };
 };

@@ -1,19 +1,18 @@
 import React from "react";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import { features } from "./bento-items";
-import { TextAnimate } from "./magicui/text-animate";
+import { LineShadowText } from "../magicui/line-shadow-text";
 
 export default function DownloadSection() {
   return (
     <div className="min-h-screen w-full justify-center items-center flex flex-col mx-auto px-12 py-12">
-      <TextAnimate
-        className="text-4xl md:text-5xl italic tracking-tighter font-bold mb-8 mt-20"
-        animation="blurInUp"
-        by="character"
-        once
-      >
-        Download Gitpaper Apps
-      </TextAnimate>
+      <span className='text-4xl md:text-5xl italic tracking-tighter font-bold mb-8 mt-20'>
+        Download
+        <LineShadowText shadowColor='black' className='italic'>
+          Gitpaper
+        </LineShadowText>
+        Apps
+      </span>
 
       <div className="max-w-4xl">
         <BentoGrid>

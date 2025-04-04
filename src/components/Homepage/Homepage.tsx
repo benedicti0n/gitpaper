@@ -7,20 +7,16 @@ import { Button } from '../ui/button'
 
 import { LucideSearch } from "lucide-react"
 import { useGithubData } from '@/app/hooks/useGithubData'
+import { useGithubDataStore } from '@/store'
 
 const Homepage = () => {
     const [username, setUsername] = useState<string>("");
-    const { githubData, fetchGithubData } = useGithubData()
+    const { fetchGithubData } = useGithubData()
+    const { githubData } = useGithubDataStore()
 
     const handleSearch = async () => {
         await fetchGithubData(username)
         console.log(githubData);
-
-        // setIsLoading(true);
-        // await fetchGithubData(username);
-        // removeGithubDataFromLocalStorage();
-        // setIsLoading(false);
-        // window.location.reload()
         console.log("working");
     }
 
