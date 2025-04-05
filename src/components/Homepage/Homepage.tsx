@@ -17,6 +17,17 @@ import { useGithubData } from '@/app/hooks/useGithubData'
 import { useColorPaletteStore } from '@/store'
 import { useGithubDataStore } from '@/store'
 import PersonalInfo from '../BentoComponents/PersonalInfo'
+import Location from '../BentoComponents/Location'
+import TotalRepoCount from '../BentoComponents/TotalRepoCount'
+import FollowerCount from '../BentoComponents/FollowerCount'
+import CurrentStreak from '../BentoComponents/CurrentStreak'
+import LongestStreak from '../BentoComponents/LongestStreak'
+import Commits from '../BentoComponents/Commits'
+import TotalPRs from '../BentoComponents/TotalPRs'
+import TotalStars from '../BentoComponents/TotalStars'
+import TotalCommits from '../BentoComponents/TotalCommits'
+import TotalContributionAndOrgs from '../BentoComponents/TotalContributionAndOrgs'
+import Heatmap from '../BentoComponents/Heatmap'
 
 const Homepage = () => {
     const [username, setUsername] = useState<string>("");
@@ -82,7 +93,7 @@ const Homepage = () => {
                     </Select>
                 </div>
 
-                {githubData && <PersonalInfo />}
+                {githubData && <Heatmap />}
 
             </div>
         </div>
