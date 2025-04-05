@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { IColorPallete, coolBluePalette, warmSunsetPalette, forestGreenPalette, vividPurplePalette, earthTonesPalette } from "@/components/colorHues"
 
 interface NavStore {
     activeTab: string;
@@ -18,4 +19,34 @@ interface GithubDataStore {
 export const useGithubDataStore = create<GithubDataStore>((set) => ({
     githubData: null,
     setGithubData: (data) => set({ githubData: data })
+}))
+
+interface ColorPaletteStore {
+    currentPalette: IColorPallete;
+    setCurrentPalette: (paletteName: string) => void;
+}
+
+const getPaletteByName = (name: string): IColorPallete => {
+    switch (name) {
+        case "Cool Blue":
+            return coolBluePalette;
+        case "Warm Sunset":
+            return warmSunsetPalette;
+        case "Forest Green":
+            return forestGreenPalette;
+        case "Vivid Purple":
+            return vividPurplePalette;
+        case "Earth Tone":
+            return earthTonesPalette;
+        default:
+            return coolBluePalette;
+    }
+}
+
+export const useColorPaletteStore = create<ColorPaletteStore>((set) => ({
+    currentPalette: coolBluePalette,
+    setCurrentPalette: (paletteName) => {
+        const newPalette = getPaletteByName(paletteName);
+        set({ currentPalette: newPalette });
+    }
 }))

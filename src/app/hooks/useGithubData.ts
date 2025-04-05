@@ -1,11 +1,32 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGithubDataStore } from "@/store";
+
+const CACHE_DURATION = 6 * 1000; // 5 minutes in milliseconds
+const CACHE_KEY = 'githubDataCache';
+
+interface CacheData {
+    data: any;
+    timestamp: number;
+}
 
 export const useGithubData = () => {
     const { setGithubData } = useGithubDataStore()
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Load cached data on component mount
+    useEffect(() => {
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        if (cachedData) {
+            const { data, timestamp }: CacheData = JSON.parse(cachedData);
+            if (Date.now() - timestamp < CACHE_DURATION) {
+                setGithubData(data);
+            } else {
+                localStorage.removeItem(CACHE_KEY);
+            }
+        }
+    }, [setGithubData]);
 
     const fetchGithubData = async (username: string) => {
         if (!username.trim()) {
@@ -17,13 +38,21 @@ export const useGithubData = () => {
         setError(null);
 
         try {
-            const response = await axios.post("/api/v1/github/fetchGithubStats",  // Updated Next.js API route
-                { username }, // Data payload
-                { headers: { "Content-Type": "application/json" } } // Headers
+            const response = await axios.post("/api/v1/github/fetchGithubStats",
+                { username },
+                { headers: { "Content-Type": "application/json" } }
             );
 
-            console.log(response.data);
-            setGithubData(response.data); // Axios already parses JSON
+            const data = response.data;
+            console.log(data);
+            setGithubData(data);
+
+            // Cache the data with timestamp
+            const cacheData: CacheData = {
+                data,
+                timestamp: Date.now()
+            };
+            localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
         } catch (err) {
             console.error("GitHub API Fetch Error:", err);
             setError("Failed to fetch GitHub stats");
