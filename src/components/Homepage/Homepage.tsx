@@ -1,22 +1,32 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LineShadowText } from '../magicui/line-shadow-text'
 import { Input } from '../ui/Input'
 import { Button } from '../ui/button'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 import { LucideSearch } from "lucide-react"
 import { useGithubData } from '@/app/hooks/useGithubData'
+import { useColorPaletteStore } from '@/store'
 import { useGithubDataStore } from '@/store'
+import PersonalInfo from '../BentoComponents/PersonalInfo'
 
 const Homepage = () => {
     const [username, setUsername] = useState<string>("");
+    const [theme, setTheme] = useState<string>("Cool Blue");
     const { fetchGithubData } = useGithubData()
+    const { setCurrentPalette, currentPalette } = useColorPaletteStore()
     const { githubData } = useGithubDataStore()
 
     const handleSearch = async () => {
         await fetchGithubData(username)
-        console.log(githubData);
         console.log("working");
     }
 
@@ -24,6 +34,15 @@ const Homepage = () => {
         if (e.key === 'Enter') {
             handleSearch()
         }
+    };
+
+    useEffect(() => {
+        console.log(currentPalette);
+    }, [currentPalette])
+
+    const handleThemeChange = (value: string) => {
+        setTheme(value);
+        setCurrentPalette(value);
     };
 
     return (
@@ -35,7 +54,6 @@ const Homepage = () => {
                         Paper
                     </LineShadowText>
                 </span>
-                {/* <p className="text-xl font-semibold mt-2">Generate yours now 👇🏼</p> */}
                 <div className="mt-8 gap-2 flex">
                     <Input
                         value={username}
@@ -49,8 +67,25 @@ const Homepage = () => {
                         Search
                     </Button>
                 </div>
+                <div className="mt-4 w-[200px]">
+                    <Select value={theme} onValueChange={handleThemeChange}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a theme" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="Cool Blue">Cool Blue</SelectItem>
+                            <SelectItem value="Warm Sunset">Warm Sunset</SelectItem>
+                            <SelectItem value="Forest Green">Forest Green</SelectItem>
+                            <SelectItem value="Vivid Purple">Vivid Purple</SelectItem>
+                            <SelectItem value="Earth Tone">Earth Tone</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                {githubData && <PersonalInfo />}
+
             </div>
-        </div >
+        </div>
     )
 }
 
