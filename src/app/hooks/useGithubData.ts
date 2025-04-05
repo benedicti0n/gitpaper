@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useGithubDataStore } from "@/store";
 
-const CACHE_DURATION = 6 * 1000; // 5 minutes in milliseconds
+const CACHE_DURATION = 10 * 60 * 1000; // 5 minutes in milliseconds
 const CACHE_KEY = 'githubDataCache';
 
 interface CacheData {
