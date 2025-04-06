@@ -16,18 +16,8 @@ import { LucideSearch } from "lucide-react"
 import { useGithubData } from '@/app/hooks/useGithubData'
 import { useColorPaletteStore } from '@/store'
 import { useGithubDataStore } from '@/store'
-import PersonalInfo from '../BentoComponents/PersonalInfo'
-import Location from '../BentoComponents/Location'
-import TotalRepoCount from '../BentoComponents/TotalRepoCount'
-import FollowerCount from '../BentoComponents/FollowerCount'
-import CurrentStreak from '../BentoComponents/CurrentStreak'
-import LongestStreak from '../BentoComponents/LongestStreak'
-import Commits from '../BentoComponents/Commits'
-import TotalPRs from '../BentoComponents/TotalPRs'
-import TotalStars from '../BentoComponents/TotalStars'
-import TotalCommits from '../BentoComponents/TotalCommits'
-import TotalContributionAndOrgs from '../BentoComponents/TotalContributionAndOrgs'
-import Heatmap from '../BentoComponents/Heatmap'
+import ImageContainer from '../BentoComponents/ImageContainer'
+import { ImageUpload } from '../ImageUpload'
 
 const Homepage = () => {
     const [username, setUsername] = useState<string>("");
@@ -93,7 +83,25 @@ const Homepage = () => {
                     </Select>
                 </div>
 
-                {githubData && <Heatmap />}
+                <ImageUpload />
+
+                <div className="grid grid-cols-2 gap-4 w-full mt-8">
+                    <div className="h-[200px]">
+                        <ImageContainer position="Top Left" />
+                    </div>
+                    <div className="h-[200px]">
+                        <ImageContainer position="Top Right" />
+                    </div>
+                    <div className="h-[200px]">
+                        <ImageContainer position="Bottom Left" />
+                    </div>
+                    <div className="h-[200px]">
+                        <ImageContainer position="Right Side" />
+                    </div>
+                </div>
+                <div className="w-full h-[300px] mt-4">
+                    <ImageContainer position="Background" />
+                </div>
 
             </div>
         </div>
