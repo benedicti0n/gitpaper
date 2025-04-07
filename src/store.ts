@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { persist } from 'zustand/middleware';
 import { IColorPallete, coolBluePalette, warmSunsetPalette, forestGreenPalette, vividPurplePalette, earthTonesPalette } from "@/components/colorHues"
 
 interface NavStore {
@@ -34,7 +35,7 @@ const getPaletteByName = (name: string): IColorPallete => {
             return warmSunsetPalette;
         case "Forest Green":
             return forestGreenPalette;
-        case "Vivid Purple":
+        case "Ellie's Purple":
             return vividPurplePalette;
         case "Earth Tone":
             return earthTonesPalette;
@@ -43,15 +44,23 @@ const getPaletteByName = (name: string): IColorPallete => {
     }
 }
 
-export const useColorPaletteStore = create<ColorPaletteStore>((set) => ({
-    currentPalette: coolBluePalette,
-    setCurrentPalette: (paletteName) => {
-        const newPalette = getPaletteByName(paletteName);
-        set({ currentPalette: newPalette });
-    }
-}))
+export const useColorPaletteStore = create<ColorPaletteStore>()(
+    persist(
+        (set) => ({
+            currentPalette: coolBluePalette,
+            setCurrentPalette: (paletteName) => {
+                const newPalette = getPaletteByName(paletteName);
+                set({ currentPalette: newPalette });
+            },
+        }),
+        {
+            name: 'color-palette-storage', // localStorage key
+        }
+    )
+);
 
-export type Position = "Top Left" | "Top Right" | "Left Side" | "Bottom Left" | "Right Side" | "Background";
+
+export type Position = "Top Left" | "Top Right" | "Bottom Left" | "Right Side" | "Background";
 
 export interface ImageEntry {
     position: Position;
@@ -63,11 +72,18 @@ export interface ImageUploadStore {
     setData: (position: Position, imgUrl: string) => void;
 }
 
-export const useImageUploadStore = create<ImageUploadStore>((set) => ({
-    data: [],
-    setData: (position, imgUrl) =>
-        set((state) => {
-            const filtered = state.data.filter((entry) => entry.position !== position);
-            return { data: [...filtered, { position, imgUrl }] };
+export const useImageUploadStore = create<ImageUploadStore>()(
+    persist(
+        (set) => ({
+            data: [],
+            setData: (position, imgUrl) =>
+                set((state) => {
+                    const filtered = state.data.filter((entry) => entry.position !== position);
+                    return { data: [...filtered, { position, imgUrl }] };
+                }),
         }),
-}));
+        {
+            name: 'image-upload-storage', // localStorage key
+        }
+    )
+);
