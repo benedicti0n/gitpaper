@@ -8,10 +8,14 @@ import { Button } from '../ui/button'
 
 import { LucideSearch } from "lucide-react"
 import { useGithubData } from '@/app/hooks/useGithubData'
+import BentoLayout from '../BentoComponents/BentoLayout/BentoLayout'
+import ControlLayout from '../BentoComponents/BentoLayout/ControlLayout'
+import { useGithubDataStore } from '@/store'
 
 const Homepage = () => {
     const [username, setUsername] = useState<string>("");
     const { fetchGithubData } = useGithubData()
+    const { githubData } = useGithubDataStore()
 
     const handleSearch = async () => {
         await fetchGithubData(username)
@@ -25,8 +29,8 @@ const Homepage = () => {
     };
 
     return (
-        <div className="w-2/3 mx-auto border min-h-screen flex flex-col items-center relative">
-            <div className="w-full h-full flex flex-col items-center mt-56 py-16">
+        <div className="w-full mx-auto min-h-screen flex flex-col items-center relative">
+            <div className="w-2/3 h-full flex flex-col items-center mt-56 py-16">
                 <span className='text-8xl font-extrabold'>
                     Git
                     <LineShadowText shadowColor='black' className='italic'>
@@ -47,6 +51,12 @@ const Homepage = () => {
                     </Button>
                 </div>
             </div>
+            {githubData &&
+                <div className='w-full flex flex-col items-center justify-center'>
+                    <ControlLayout />
+                    <BentoLayout />
+                </div>
+            }
         </div>
     )
 }
