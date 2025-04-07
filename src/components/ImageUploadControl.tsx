@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/Input";
 
-export function ImageUpload() {
+export function ImageUploadControl() {
     const [imgUrl, setImgUrl] = useState("");
     const [selectedPosition, setSelectedPosition] = useState<Position | "">("");
     const { setData } = useImageUploadStore();
@@ -47,7 +47,7 @@ export function ImageUpload() {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex gap-4 items-center">
-                <div className="w-[200px]">
+                <div className="w-full text-black">
                     <Select onValueChange={(val) => handlePositionChange(val as Position)}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select position" />
@@ -61,21 +61,20 @@ export function ImageUpload() {
                         </SelectContent>
                     </Select>
                 </div>
+            </div>
+            <div className="flex items-center gap-2">
                 <Input
                     type="text"
                     placeholder="Paste image URL"
                     value={imgUrl}
                     onChange={(e) => handleImageUrlChange(e.target.value)}
-                    className="w-[300px]"
+                    className="w-1/2 bg-white text-black"
                 />
-            </div>
-            <div className="flex items-center gap-2">
-                <span className="text-sm">Or upload from your computer:</span>
                 <Input
                     type="file"
                     accept="image/*"
                     onChange={handleFileUpload}
-                    className="w-[200px]"
+                    className="w-1/2 bg-white text-black"
                 />
             </div>
         </div>

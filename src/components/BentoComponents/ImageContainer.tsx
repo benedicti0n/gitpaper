@@ -1,5 +1,6 @@
-import { useColorPaletteStore, useImageUploadStore } from '@/store';
 import React from 'react'
+import { useColorPaletteStore, useImageUploadStore } from '@/store';
+
 
 interface ImageContainerProps {
     position: string;
@@ -26,7 +27,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ position }) => {
                 />
             ) : (
                 <div
-                    className="bg-gray-200 w-full h-full flex text-center items-center justify-center rounded-xl border-2 border-dashed"
+                    className="h-full flex text-center items-center justify-center rounded-xl border-2 border-dashed"
                     style={{
                         backgroundColor: `${currentPalette.main1}`,
                         borderColor: `${currentPalette.main4}`

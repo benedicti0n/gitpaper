@@ -6,7 +6,7 @@ const TotalContributionAndOrgs = () => {
     const { currentPalette } = useColorPaletteStore()
     const { githubData } = useGithubDataStore()
     return (
-        <div className="w-2/5 flex flex-col p-4 rounded-xl" style={{ backgroundColor: `${currentPalette.main1}` }}>
+        <div className="w-full h-full flex flex-col p-4 rounded-xl" style={{ backgroundColor: `${currentPalette.main1}` }}>
             <h1 className="w-full flex font-[ChivoThin] text-base"><LucideGitBranch className="h-6 w-6 mr-1" />Total Contribution and Orgs</h1>
             <div className="h-full flex mt-4">
                 <h1 className="w-1/4 mr-6 text-5xl font-[ChivoMedium]">
