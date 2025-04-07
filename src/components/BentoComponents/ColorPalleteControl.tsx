@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Select,
     SelectContent,
@@ -9,16 +9,21 @@ import {
 import { useColorPaletteStore } from '@/store'
 
 const ColorPalleteControl = () => {
-    const [theme, setTheme] = useState<string>("Cool Blue");
-    const { setCurrentPalette } = useColorPaletteStore()
+    const { currentPalette, setCurrentPalette } = useColorPaletteStore()
+    const [theme, setTheme] = useState<string>(currentPalette.name) // Initialize from store
+
+    // Sync on mount in case persisted store loads after initial render
+    useEffect(() => {
+        setTheme(currentPalette.name)
+    }, [currentPalette.name])
 
     const handleThemeChange = (value: string) => {
-        setTheme(value);
-        setCurrentPalette(value);
-    };
+        setTheme(value)
+        setCurrentPalette(value)
+    }
 
     return (
-        <div className="mt-4 w-[200px]">
+        <div className="mt-4 w-full text-black">
             <Select value={theme} onValueChange={handleThemeChange}>
                 <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a theme" />
@@ -27,7 +32,7 @@ const ColorPalleteControl = () => {
                     <SelectItem value="Cool Blue">Cool Blue</SelectItem>
                     <SelectItem value="Warm Sunset">Warm Sunset</SelectItem>
                     <SelectItem value="Forest Green">Forest Green</SelectItem>
-                    <SelectItem value="Vivid Purple">Vivid Purple</SelectItem>
+                    <SelectItem value="Ellie's Purple">{`Ellie's Purple`}</SelectItem>
                     <SelectItem value="Earth Tone">Earth Tone</SelectItem>
                 </SelectContent>
             </Select>

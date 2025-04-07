@@ -1,4 +1,5 @@
 export interface IColorPallete {
+    name: string;
     bgColor: string;
     main1: string,
     main2: string,
@@ -15,6 +16,7 @@ export interface IColorPallete {
 }
 
 export const coolBluePalette: IColorPallete = {
+    name: "Cool Blue",
     bgColor: "#eff6ff", // Soft light blue
     main1: "#63a3f7",   // Vibrant blue
     main2: "#3378f1",   // Deep blue
@@ -31,6 +33,7 @@ export const coolBluePalette: IColorPallete = {
 };
 
 export const warmSunsetPalette: IColorPallete = {
+    name: "Warm Sunset",
     bgColor: "#fef9ec", // Soft peach
     main1: "#e5901b",   // Fiery orange
     main2: "#cb6d14",   // Deep burnt orange
@@ -47,6 +50,7 @@ export const warmSunsetPalette: IColorPallete = {
 };
 
 export const forestGreenPalette: IColorPallete = {
+    name: "Forest Green",
     bgColor: "#edfff7", // Light mint green
     main1: "#00965b",   // Forest green
     main2: "#06754a",   // Dark green
@@ -63,6 +67,7 @@ export const forestGreenPalette: IColorPallete = {
 };
 
 export const vividPurplePalette: IColorPallete = {
+    name: "Ellie's Purple",
     bgColor: "#f6f3ff", // Light lavender
     main1: "#b388fd",   // Bold purple
     main2: "#9d58fa",   // Deep purple
@@ -79,6 +84,7 @@ export const vividPurplePalette: IColorPallete = {
 };
 
 export const earthTonesPalette: IColorPallete = {
+    name: "Earth Tone",
     bgColor: "#f7f2e8", // Soft beige
     main1: "#a68a64",   // Earthy brown
     main2: "#7f6240",   // Deep brown
