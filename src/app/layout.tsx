@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DotPattern } from "@/components/magicui/dot-pattern";
 import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
@@ -17,7 +16,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
-          <DotPattern width={32} height={32} />
           {children}
         </body>
       </html>
