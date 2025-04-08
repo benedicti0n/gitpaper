@@ -12,15 +12,70 @@ export const useNavStore = create<NavStore>((set) => ({
     setActiveTab: (tab) => set({ activeTab: tab })
 }))
 
+
+// <------- Navbar store end here -------> //
+
+
+export interface Organization {
+    name: string;
+    avatarUrl: string;
+}
+
+export interface UserDetails {
+    name: string;
+    username: string;
+    avatarUrl: string;
+    bio: string;
+    location: string;
+    followingCount: number;
+    followersCount: number;
+    gistsCount: number;
+    totalCommits: number;
+    contributedReposCount: number;
+    pullRequestsCount: number;
+    issuesCount: number;
+    organizationsCount: number;
+    organizations: Organization[];
+    contributedOrganizations: Organization[];
+    sponsoringCount: number;
+    sponsorsCount: number;
+    accountCreatedAt: string; // ISO date
+    lastUpdateAt: string; // ISO date
+    totalRepositories: number;
+    totalStars: number;
+}
+
+export interface StreakStats {
+    totalContributions: number;
+    firstDateofContribution: string;
+    longestStreak: number;
+    longestStreakStartDate: string;
+    longestStreakEndDate: string;
+    currentStreak: number;
+    currentStreakStartDate: string | null;
+    currentStreakEndDate: string | null;
+}
+
+export interface GitHubStats {
+    userDetails: UserDetails;
+    streakStats: StreakStats;
+}
+
 interface GithubDataStore {
-    githubData: any | null;
-    setGithubData: (data: any | null) => void;
+    githubData: GitHubStats | null;
+    setGithubData: (data: GitHubStats | null) => void;
 }
 
 export const useGithubDataStore = create<GithubDataStore>((set) => ({
     githubData: null,
     setGithubData: (data) => set({ githubData: data })
 }))
+
+
+
+// <------- Github store end here -------> //
+
+
 
 interface ColorPaletteStore {
     currentPalette: IColorPallete;
@@ -60,6 +115,12 @@ export const useColorPaletteStore = create<ColorPaletteStore>()(
 );
 
 
+
+
+// <------- Color Pallete store end here -------> //
+
+
+
 export type Position = "Top Left" | "Top Right" | "Bottom Left" | "Right Side" | "Background";
 
 export interface ImageEntry {
@@ -87,3 +148,8 @@ export const useImageUploadStore = create<ImageUploadStore>()(
         }
     )
 );
+
+
+
+
+// <------- Image Upload store end here -------> //
