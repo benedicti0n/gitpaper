@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useNavStore } from "@/store" // Import Zustand store
@@ -8,6 +8,7 @@ import { ArrowRight, Briefcase, DollarSign, Home, LucideIcon, User } from "lucid
 import { cn } from "@/lib/utils"
 import { SignedIn, SignedOut, SignInButton, UserButton, useSession } from "@clerk/nextjs"
 import { GlowEffect } from "./glow-effect"
+import { usePathname } from "next/navigation"
 
 interface NavItem {
   name: string
@@ -22,13 +23,21 @@ interface NavBarProps {
 export function NavBar({ className }: NavBarProps) {
   const { activeTab, setActiveTab } = useNavStore()
   const { isSignedIn } = useSession()
+  const pathname = usePathname()
 
-  const navItems: NavItem[] = [
+  useEffect(() => {
+    const matchedItem = navItems.find((item) => item.url === pathname)
+    if (matchedItem) {
+      setActiveTab(matchedItem.name)
+    }
+  }, [pathname, isSignedIn])
+
+  const navItems: NavItem[] = useMemo(() => [
     { name: 'Home', url: '/', icon: Home },
     ...(isSignedIn ? [{ name: 'Dashboard', url: '/dashboard', icon: User }] : []),
     { name: 'Download', url: '/download', icon: Briefcase },
     { name: 'Pricing', url: '/pricing', icon: DollarSign },
-  ]
+  ], [isSignedIn])
 
   return (
     <div
