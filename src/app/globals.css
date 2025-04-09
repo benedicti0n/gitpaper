@@ -23,11 +23,19 @@
   font-style: normal;
 }
 
+.font-ChivoRegular {
+  font-family: ChivoRegular;
+}
+
 @font-face {
   font-family: "ChivoThin";
   src: url("/Fonts/Chivo/static/Chivo-Thin.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+}
+
+.font-ChivoThin {
+  font-family: ChivoThin;
 }
 
 @font-face {
@@ -37,11 +45,19 @@
   font-style: normal;
 }
 
+.font-ChivoMedium {
+  font-family: ChivoMedium;
+}
+
 @font-face {
   font-family: "ChivoBold";
   src: url("/Fonts/Chivo/static/Chivo-Bold.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+}
+
+.font-ChivoBold {
+  font-family: ChivoBold;
 }
 
 :root {

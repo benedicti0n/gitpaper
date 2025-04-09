@@ -20,8 +20,7 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
     const pathname = usePathname()
     const isHomepage = pathname === "/";
 
-    // const { platform } = useParams<{ platform: string }>()
-    const platform = "Extension"
+    const { platform } = useParams<{ platform: string }>()
 
     return (
         <div className='flex items-center justify-center p-2 rounded-3xl mt-6 w-264 mb-10 ' style={{

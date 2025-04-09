@@ -1,6 +1,6 @@
+import React from "react";
 import DownloadSection from "@/components/DownloadPage/DownloadSection";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import React from "react";
 
 const page = () => {
   return (

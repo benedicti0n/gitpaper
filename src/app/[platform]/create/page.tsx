@@ -4,9 +4,9 @@ import { useEffect } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { NavBar } from '@/components/ui/tubelight-navbar'
-import DashboardPage from '@/components/Dashboard/DashboardPage'
+import CreateWallpaperPage from '@/components/CreateWallpaperPage/CreateWallpaperPage'
 
-const Dashboard = () => {
+const CreateWallpaper = () => {
     const { isSignedIn, isLoaded } = useUser()
     const router = useRouter()
 
@@ -21,9 +21,9 @@ const Dashboard = () => {
     return (
         <div>
             <NavBar />
-            <DashboardPage />
+            <CreateWallpaperPage />
         </div>
     )
 }
 
-export default Dashboard
+export default CreateWallpaper

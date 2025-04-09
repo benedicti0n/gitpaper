@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import { features } from "./bento-items";

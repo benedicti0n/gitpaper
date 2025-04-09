@@ -9,7 +9,6 @@ import { Button } from '../ui/button'
 import { LucideSearch } from "lucide-react"
 import { useGithubData } from '@/hooks/useGithubData'
 import BentoLayout from '../BentoComponents/BentoLayout/BentoLayout'
-import ControlLayout from '../BentoComponents/BentoLayout/ControlLayout'
 import { useGithubDataStore } from '@/store'
 
 const Homepage = () => {
