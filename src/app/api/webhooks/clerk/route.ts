@@ -2,6 +2,9 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/prisma'
+import { DeleteObjectCommand } from '@aws-sdk/client-s3'
+import s3 from '@/lib/s3'
+import { platform } from 'os'
 
 export async function POST(req: Request) {
     const SIGNING_SECRET = process.env.SIGNING_SECRET
@@ -57,15 +60,18 @@ export async function POST(req: Request) {
                     id: userId,
                     email: evt.data.email_addresses[0].email_address,
                     platformsConnectedTo: {
-                        create: {} // This will create a PlatformsConnectedTo with default values
+                        create: {}
                     }
-                    // Add any other fields you need to save
                 }
             })
         } else if (eventType === 'user.deleted') {
             // Check if user exists before attempting to delete
             const user = await prisma.user.findUnique({
                 where: { id: userId },
+                include: {
+                    wallpapers: true,
+                    platformsConnectedTo: true
+                }
             })
 
             if (!user) {
@@ -74,10 +80,36 @@ export async function POST(req: Request) {
                 })
             }
 
-            // Delete user and related records from the database
+            // Delete all user's wallpapers first
+            if (user.wallpapers.length > 0) {
+                // Delete each wallpaper from S3
+                for (const wallpaper of user.wallpapers) {
+                    const platformOf = wallpaper.platform.toLowerCase()
+                    const fileName = `${wallpaper.userId}-${platformOf}.png`
+                    const deleteParams = {
+                        Bucket: process.env.AWS_BUCKET_NAME!,
+                        Key: fileName,
+                    };
+                    await s3.send(new DeleteObjectCommand(deleteParams));
+                }
+
+                // Delete all wallpapers from database
+                await prisma.userWallpaper.deleteMany({
+                    where: { userId }
+                });
+            }
+
+            // Delete the platforms connected to record if it exists
+            if (user.platformsConnectedTo) {
+                await prisma.platformsConnectedTo.delete({
+                    where: { id: user.platformsConnectedToId! }
+                });
+            }
+
+            // Finally delete the user
             await prisma.user.delete({
                 where: { id: userId },
-            })
+            });
         }
     } catch (error) {
         console.error('Database operation failed:', error)

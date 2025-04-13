@@ -10,7 +10,6 @@ export async function POST(req: Request) {
 
         console.log(wallpaperId, platformOf, userId);
 
-
         if (!wallpaperId || !platformOf || !userId) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
