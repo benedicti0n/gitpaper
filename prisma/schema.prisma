@@ -16,6 +16,8 @@ enum Platform {
 model User {
   id                     String                @id @default(cuid()) // userId
   email                  String                @unique
+  username               String?               @unique
+  password               String?
   platformsConnectedTo   PlatformsConnectedTo? @relation("UserPlatforms", fields: [platformsConnectedToId], references: [id])
   platformsConnectedToId String?               @unique // Added @unique to enforce one-to-one
   wallpapers             UserWallpaper[]
