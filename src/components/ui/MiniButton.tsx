@@ -56,9 +56,16 @@ const MiniButton = ({
     variant = "default"
 }: ButtonProps) => {
     return (
-        <button className={`${variants[variant].bg} ${className}`}
+        <div
+            className={`${variants[variant].bg} ${className}`}
             onClick={onClickFunction}
-            type="button"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    onClickFunction?.();
+                }
+            }}
         >
             <GlowEffect
                 mode='colorShift'
@@ -81,7 +88,7 @@ const MiniButton = ({
                     </TooltipProvider>
                 </div>
             </div>
-        </button>
+        </div>
     );
 };
 
