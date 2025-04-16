@@ -20,7 +20,7 @@ export const useSaveWallpaper = () => {
         }
     }
 
-    const handleSave = async (componentRef: React.RefObject<HTMLDivElement | null>, userId: string | undefined, platform: string) => {
+    const handleSave = async (componentRef: React.RefObject<HTMLDivElement | null>, userId: string | undefined, platform: string, backgroundImage: string | undefined) => {
         if (!componentRef.current) {
             console.error("❌ Ref is null – component not mounted?");
             return;
@@ -33,7 +33,7 @@ export const useSaveWallpaper = () => {
                 pixelRatio: 2,
                 quality: 1,
                 backgroundColor: '#e8e8e8',
-                skipFonts: true, // prevents cross-origin font loading error
+                skipFonts: true
             });
 
             console.log("✅ Image Data URL:", dataUrl.slice(0, 100));
@@ -42,12 +42,16 @@ export const useSaveWallpaper = () => {
             //convert data url to blob for uploading
             const blob = await (await fetch(dataUrl)).blob()
 
-            const refInnerHTML = componentRef.current?.innerHTML;
-
             const formData = new FormData()
             formData.append("image", blob)
             formData.append("platformOf", platform)
-            formData.append("ref", JSON.stringify(refInnerHTML))
+            if (backgroundImage && backgroundImage.startsWith('data:')) {
+                const response = await fetch(backgroundImage);
+                const backgroundBlob = await response.blob();
+                formData.append("backgroundImage", backgroundBlob);
+            } else if (backgroundImage) {
+                formData.append("backgroundImageUrl", backgroundImage);
+            }
             formData.append("userId", userId || "")
 
             await saveWallpaper(formData)

@@ -36,11 +36,11 @@ model PlatformsConnectedTo {
 }
 
 model UserWallpaper {
-  id        String   @id @default(cuid()) // wallpaperId
-  platform  Platform
-  link      String // wallpaperLink
-  ref       String // wallpaperRef
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  id                  String   @id @default(cuid()) // wallpaperId
+  platform            Platform
+  bentoLink           String  @default("")
+  backgroundImageLink String  @default("")
+  userId              String
+  user                User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }

@@ -1,5 +1,5 @@
 import { useColorPaletteStore, useImageUploadStore } from '@/store';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ImageContainer from '../ImageContainer';
 import Heatmap from '../Heatmap';
 import GithubAvatar from '../GithubAvatar';
@@ -23,11 +23,14 @@ const BentoLayout = () => {
 
     const backgroundImageEntry = data.find(entry => entry.position === "Background");
 
+    useEffect(() => {
+        console.log(data);
+    }, [data])
+
     return (
         <div className='min-h-screen w-full flex flex-col items-center justify-center'>
             <ControlLayout bentoComponentRef={componentRef} />
             <div
-                ref={componentRef}
                 className='min-h-screen w-full flex items-center justify-center'
                 style={{
                     backgroundImage: backgroundImageEntry?.imgUrl
@@ -43,6 +46,7 @@ const BentoLayout = () => {
                 }}
             >
                 <div
+                    ref={componentRef}
                     className="h-164 w-264 p-2 rounded-3xl"
                     style={{
                         background: `linear-gradient(to bottom right, ${currentPalette.main4}, ${currentPalette.main2}, ${currentPalette.main4})`,

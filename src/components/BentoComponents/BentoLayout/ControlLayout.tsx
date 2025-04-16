@@ -1,6 +1,6 @@
 import React from 'react'
 import ColorPalleteControl from '../ColorPalleteControl'
-import { useColorPaletteStore } from '@/store';
+import { useColorPaletteStore, useImageUploadStore } from '@/store';
 import { ImageUploadControl } from '@/components/ImageUploadControl';
 import { Button } from '@/components/ui/button';
 import { useSaveWallpaper } from '@/hooks/useSaveWallpaper';
@@ -9,6 +9,9 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 
 const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObject<HTMLDivElement | null> }) => {
     const { currentPalette } = useColorPaletteStore();
+    const { data } = useImageUploadStore();
+    const backgroundImageEntry = data.find(entry => entry.position === "Background");
+
     const { handleSave } = useSaveWallpaper()
 
     const { isSignedIn } = useSession()
@@ -48,7 +51,7 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                             if (isHomepage) {
                                 router.push("/dashboard");
                             } else if (userId && platform) {
-                                handleSave(bentoComponentRef, userId, platform);
+                                handleSave(bentoComponentRef, userId, platform, backgroundImageEntry?.imgUrl);
                             }
                         }}
                     >

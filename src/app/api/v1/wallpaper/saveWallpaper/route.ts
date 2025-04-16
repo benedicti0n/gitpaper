@@ -10,10 +10,12 @@ export async function POST(req: Request) {
 
         const file = formData.get('image') as File | null;
         const platformOf = formData.get('platformOf')?.toString();
-        const ref = formData.get('ref')?.toString();
+        const backgroundImage = formData.get('backgroundImage') as File | null;
+        const backgroundImageUrl = formData.get('backgroundImageUrl')?.toString();
+
         const userId = formData.get('userId')?.toString();
 
-        if (!file || !platformOf || !ref || !userId) {
+        if (!file || !platformOf || !userId) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
@@ -24,27 +26,45 @@ export async function POST(req: Request) {
         }
 
         const fileName = `${userId}-${platformOf}.png`;
+        const backgroundImageName = `background_${Date.now()}_${userId}.png`;
 
-        // Convert file to buffer
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-
-        const uploadParams = {
+        // Convert files to buffers for Bento Component
+        const arrayBufferBento = await file.arrayBuffer();
+        const bufferBento = Buffer.from(arrayBufferBento);
+        const uploadParamsForBento = {
             Bucket: process.env.AWS_BUCKET_NAME!,
             Key: fileName,
-            Body: buffer,
+            Body: bufferBento,
             ContentType: file.type,
         };
+        await s3.send(new PutObjectCommand(uploadParamsForBento));
 
-        await s3.send(new PutObjectCommand(uploadParams));
 
-        const wallpaperS3Link = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+        // Convert files to buffers for Background image if its data: or imageUrl itself
+        let backgroundWallpaperS3Link = '';
+
+        // Handle File upload case
+        if (backgroundImage) {
+            const bufferBackgroundImage = Buffer.from(await backgroundImage.arrayBuffer());
+            const uploadParamsForBackgroundImage = {
+                Bucket: process.env.AWS_BUCKET_NAME!,
+                Key: backgroundImageName,
+                Body: bufferBackgroundImage,
+                ContentType: backgroundImage.type,
+            };
+            await s3.send(new PutObjectCommand(uploadParamsForBackgroundImage));
+            backgroundWallpaperS3Link = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${backgroundImageName}`;
+        } else if (backgroundImageUrl) {
+            backgroundWallpaperS3Link = backgroundImageUrl;
+        }
+
+        const bentoWallpaperS3Link = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
         const newWallpaper = await prisma.userWallpaper.create({
             data: {
                 platform: platformUpperCase as Platform,
-                link: wallpaperS3Link,
-                ref,
+                bentoLink: bentoWallpaperS3Link,
+                backgroundImageLink: backgroundWallpaperS3Link,
                 userId,
             },
         });
