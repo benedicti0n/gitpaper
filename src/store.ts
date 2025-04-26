@@ -153,3 +153,19 @@ export const useImageUploadStore = create<ImageUploadStore>()(
 
 
 // <------- Image Upload store end here -------> //
+
+
+
+interface LoadingStore {
+    isLoading: boolean;
+    setLoading: (isLoading: boolean) => void;
+}
+
+export const useLoadingStore = create<LoadingStore>((set) => ({
+    isLoading: false,
+    setLoading: (isLoading) => set({ isLoading }),
+}));
+
+
+
+// <------- Loading store end here -------> //

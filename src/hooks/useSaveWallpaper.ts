@@ -3,8 +3,6 @@ import { toPng } from "html-to-image"
 
 export const useSaveWallpaper = () => {
     const saveWallpaper = async (formData: FormData) => {
-        console.log(formData);
-
         try {
             const response = await axios.post("/api/v1/wallpaper/saveWallpaper",
                 formData,

@@ -1,6 +1,6 @@
 import React from 'react'
 import ColorPalleteControl from '../ColorPalleteControl'
-import { useColorPaletteStore, useImageUploadStore } from '@/store';
+import { useColorPaletteStore, useImageUploadStore, useLoadingStore } from '@/store';
 import { ImageUploadControl } from '@/components/ImageUploadControl';
 import { Button } from '@/components/ui/button';
 import { useSaveWallpaper } from '@/hooks/useSaveWallpaper';
@@ -8,6 +8,7 @@ import { useClerk, useSession, useUser } from '@clerk/nextjs';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
 const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObject<HTMLDivElement | null> }) => {
+    const { isLoading, setLoading } = useLoadingStore()
     const { currentPalette } = useColorPaletteStore();
     const { data } = useImageUploadStore();
     const backgroundImageEntry = data.find(entry => entry.position === "Background");
@@ -41,6 +42,7 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                         <ColorPalleteControl />
                     </div>
                     <Button
+                        disabled={isLoading}
                         className='bg-white text-black hover:text-white w-full'
                         onClick={() => {
                             if (!isSignedIn) {
@@ -51,7 +53,9 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                             if (isHomepage) {
                                 router.push("/dashboard");
                             } else if (userId && platform) {
+                                setLoading(true)
                                 handleSave(bentoComponentRef, userId, platform, backgroundImageEntry?.imgUrl);
+                                setLoading(false)
                             }
                         }}
                     >

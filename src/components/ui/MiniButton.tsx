@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { forwardRef, ReactNode } from "react";
 import { GlowEffect } from "./glow-effect";
 
 import {
@@ -47,16 +47,17 @@ const variants: IVariants = {
     }
 }
 
-const MiniButton = ({
+const MiniButton = forwardRef<HTMLDivElement, ButtonProps>(({
     text,
     icon,
     onClickFunction,
     children,
     className = "",
     variant = "default"
-}: ButtonProps) => {
+}, ref) => {
     return (
         <div
+            ref={ref} // <- ⭐ VERY IMPORTANT
             className={`${variants[variant].bg} ${className}`}
             onClick={onClickFunction}
             role="button"
@@ -90,6 +91,8 @@ const MiniButton = ({
             </div>
         </div>
     );
-};
+});
+
+MiniButton.displayName = "MiniButton"; // <- necessary because we used forwardRef!
 
 export default MiniButton;

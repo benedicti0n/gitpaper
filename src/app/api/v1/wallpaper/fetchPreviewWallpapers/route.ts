@@ -4,13 +4,14 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     const body = await req.json()
     const { userId } = body
+    console.log(userId);
 
     try {
         const wallpapers = await prisma.userWallpaper.findMany({
             where: { userId },
             select: {
-                platform: true,
                 id: true,
+                platform: true,
                 bentoLink: true,
                 backgroundImageLink: true,
             }
