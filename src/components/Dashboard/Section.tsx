@@ -4,7 +4,8 @@ interface SectionProps {
     heading: string
     wallpapers: [{
         wallpaperId: string,
-        link: string,
+        bentoLink: string,
+        backgroundImageLink: string,
     }] | undefined
 }
 

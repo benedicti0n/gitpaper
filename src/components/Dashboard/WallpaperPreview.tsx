@@ -10,8 +10,9 @@ import ConfirmDeleteModal from "../ui/Modals/ConfirmDeleteModal";
 import PreviewModal from "../ui/Modals/PreviewModal";
 
 interface IWallpaperPreview {
-    imageUrl: string;
     wallpaperId: string;
+    bentoLink: string;
+    backgroundImageLink: string;
     platformOf: string;
     userId: string | undefined;
 }
@@ -32,17 +33,17 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
     const modalContent = {
         extension: (
             <div className="w-72 rounded-xl mr-6">
-                <BrowserMockup imageUrl={props.imageUrl} onClick={previewWallpaper} />
+                <BrowserMockup bentoLink={props.bentoLink} backgroundImageLink={props.backgroundImageLink} onClick={previewWallpaper} />
             </div>
         ),
         mobile: (
             <div className="rounded-xl mr-6">
-                <SmallIPhoneMockup imageUrl={props.imageUrl} onClick={previewWallpaper} />
+                {/* <SmallIPhoneMockup bentoLink={props.bentoLink} backgroundImageLink={props.backgroundImageLink} onClick={previewWallpaper} /> */}
             </div>
         ),
         desktop: (
             <div className="w-72 rounded-xl mr-6">
-                <DesktopMockup imageUrl={props.imageUrl} onClick={previewWallpaper} />
+                {/* <DesktopMockup bentoLink={props.bentoLink} backgroundImageLink={props.backgroundImageLink} onClick={previewWallpaper} /> */}
             </div>
         )
     }[props.platformOf] || null; // Default to null if no match
@@ -51,14 +52,14 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
     return (
         <div className="relative">
             {modalContent}
-            <div className="absolute top-0 right-6 m-1 z-30">
+            <div className="absolute top-0 right-6 m-1 z-30 flex">
                 <MiniButton text="Edit" variant="default" className="mx-1" onClickFunction={() => { router.push(`/edit/${props.wallpaperId}`) }}><LucidePen className="h-4 w-4" /></MiniButton>
                 <MiniButton text="Delete" variant="destructive" onClickFunction={openDeleteConfirmModal}><LucideTrash2 className="h-4 w-4" /></MiniButton>
             </div>
 
             {isDeleteConfirmModalOpen && <ConfirmDeleteModal closeModal={() => setIsDeleteConfirmModal(false)} wallpaperId={props.wallpaperId} platformOf={props.platformOf} userId={props.userId} />}
 
-            {isModalOpen && <PreviewModal imageUrl={props.imageUrl} closeModal={() => setIsModalOpen(false)} platformOf={props.platformOf} />}
+            {isModalOpen && <PreviewModal bentoLink={props.bentoLink} backgroundImageLink={props.backgroundImageLink} closeModal={() => setIsModalOpen(false)} platformOf={props.platformOf} />}
         </div>
     )
 }

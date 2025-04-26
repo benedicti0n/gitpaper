@@ -6,12 +6,11 @@ import { useRouter } from "next/navigation";
 
 interface IPlatformDetails {
     platform: string;
-    wallpapers:
-    | {
+    wallpapers: [{
         wallpaperId: string;
-        link: string;
-    }[]
-    | undefined;
+        bentoLink: string;
+        backgroundImageLink: string;
+    }] | undefined;
 }
 
 const AvailableWallpaper = (props: IPlatformDetails) => {
@@ -29,14 +28,13 @@ const AvailableWallpaper = (props: IPlatformDetails) => {
                     <div className="flex flex-wrap gap-4 w-full justify-start">
                         {props.wallpapers &&
                             props.wallpapers
-                                .filter(
-                                    (wallpaper) => wallpaper.wallpaperId && wallpaper.link
-                                )
+                                .filter((wallpaper) => wallpaper.wallpaperId && wallpaper.bentoLink && wallpaper.backgroundImageLink)
                                 .map((wallpaper) => (
                                     <WallpaperPreview
                                         key={wallpaper.wallpaperId}
                                         wallpaperId={wallpaper.wallpaperId}
-                                        imageUrl={wallpaper.link}
+                                        bentoLink={wallpaper.bentoLink}
+                                        backgroundImageLink={wallpaper.backgroundImageLink}
                                         platformOf={platform}
                                         userId={userId}
                                     />

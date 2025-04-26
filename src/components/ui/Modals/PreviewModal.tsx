@@ -3,16 +3,17 @@ import MobilePreviewModal from './MobilePreviewModal';
 import DesktopPreviewModal from './DesktopPreviewModal';
 
 interface IPreviewModal {
-    imageUrl: string;
+    bentoLink: string;
+    backgroundImageLink: string;
     closeModal: () => void;
     platformOf: string
 }
 
 const PreviewModal = (props: IPreviewModal) => {
     const modalContent = {
-        extension: <ExtensionPreviewModal imageUrl={props.imageUrl} />,
-        mobile: <MobilePreviewModal imageUrl={props.imageUrl} />,
-        desktop: <DesktopPreviewModal imageUrl={props.imageUrl} />,
+        extension: <ExtensionPreviewModal bentoLink={props.bentoLink} backgroundImageLink={props.backgroundImageLink} />,
+        // mobile: <MobilePreviewModal imageUrl={props.imageUrl} />,
+        // desktop: <DesktopPreviewModal imageUrl={props.imageUrl} />,
     }[props.platformOf] || null; // Default to null if no match
 
     return (

@@ -10,29 +10,46 @@ export async function POST(req: Request) {
             where: { userId },
             select: {
                 platform: true,
-                link: true,
                 id: true,
+                bentoLink: true,
+                backgroundImageLink: true,
             }
         })
 
-        const formattedWallpapers = {
-            extension: [{ wallpaperId: '', link: [''] }],
-            mobile: [{ wallpaperId: '', link: [''] }],
-            desktop: [{ wallpaperId: '', link: [''] }],
+        type FormattedWallpaper = {
+            wallpaperId: string;
+            bentoLink: string;
+            backgroundImageLink: string;
+        };
+
+        const formattedWallpapers: {
+            extension: FormattedWallpaper[];
+            mobile: FormattedWallpaper[];
+            desktop: FormattedWallpaper[];
+        } = {
+            extension: [],
+            mobile: [],
+            desktop: [],
         };
 
         wallpapers.forEach(wallpaper => {
+            const entry: FormattedWallpaper = {
+                wallpaperId: wallpaper.id,
+                bentoLink: wallpaper.bentoLink,
+                backgroundImageLink: wallpaper.backgroundImageLink,
+            };
+
             if (wallpaper.platform === 'EXTENSION') {
-                formattedWallpapers.extension[0].wallpaperId = wallpaper.id;
-                formattedWallpapers.extension[0].link = [wallpaper.link];
+                formattedWallpapers.extension.push(entry);
             } else if (wallpaper.platform === 'MOBILE') {
-                formattedWallpapers.mobile[0].wallpaperId = wallpaper.id;
-                formattedWallpapers.mobile[0].link = [wallpaper.link];
+                formattedWallpapers.mobile.push(entry);
             } else if (wallpaper.platform === 'DESKTOP') {
-                formattedWallpapers.desktop[0].wallpaperId = wallpaper.id;
-                formattedWallpapers.desktop[0].link = [wallpaper.link];
+                formattedWallpapers.desktop.push(entry);
             }
         });
+
+
+        console.log(formattedWallpapers);
 
         return NextResponse.json({ success: true, wallpapers: formattedWallpapers }, { status: 200 });
     } catch (error) {

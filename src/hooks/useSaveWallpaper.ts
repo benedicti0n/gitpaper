@@ -3,6 +3,8 @@ import { toPng } from "html-to-image"
 
 export const useSaveWallpaper = () => {
     const saveWallpaper = async (formData: FormData) => {
+        console.log(formData);
+
         try {
             const response = await axios.post("/api/v1/wallpaper/saveWallpaper",
                 formData,
@@ -28,12 +30,14 @@ export const useSaveWallpaper = () => {
 
         try {
             //convert component to image data url
+            console.log("inside try block");
+
             const dataUrl = await toPng(componentRef.current!, {
                 cacheBust: true,
                 pixelRatio: 2,
                 quality: 1,
                 backgroundColor: '#e8e8e8',
-                skipFonts: true
+                skipFonts: true,
             });
 
             console.log("✅ Image Data URL:", dataUrl.slice(0, 100));
@@ -43,7 +47,7 @@ export const useSaveWallpaper = () => {
             const blob = await (await fetch(dataUrl)).blob()
 
             const formData = new FormData()
-            formData.append("image", blob)
+            formData.append("bentoImage", blob)
             formData.append("platformOf", platform)
             if (backgroundImage && backgroundImage.startsWith('data:')) {
                 const response = await fetch(backgroundImage);

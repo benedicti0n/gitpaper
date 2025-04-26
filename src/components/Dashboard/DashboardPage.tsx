@@ -3,19 +3,21 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Section from './Section';
 
-const Platforms = ["Extension", "Mobile", "Desktop"]
 interface IWallpapers {
     extension: [{
         wallpaperId: string,
-        link: string,
+        bentoLink: string,
+        backgroundImageLink: string,
     }];
     mobile: [{
         wallpaperId: string,
-        link: string,
+        bentoLink: string,
+        backgroundImageLink: string,
     }];
     desktop: [{
         wallpaperId: string,
-        link: string,
+        bentoLink: string,
+        backgroundImageLink: string,
     }];
 }
 
