@@ -1,10 +1,17 @@
+"use client"
+
+import { useLoadingStore } from "@/store";
 import axios from "axios"
 import { toPng } from "html-to-image"
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const useSaveWallpaper = () => {
+    const { setLoading } = useLoadingStore()
+    const router = useRouter()
     const saveWallpaper = async (formData: FormData) => {
         try {
-            const response = await axios.post("/api/v1/wallpaper/saveWallpaper",
+            await axios.post("/api/v1/wallpaper/saveWallpaper",
                 formData,
                 {
                     headers: {
@@ -13,14 +20,16 @@ export const useSaveWallpaper = () => {
                 }
             );
 
-            const result = await response.data;
-            console.log("Wallpaper saved:", result);
+            setLoading(false)
+            toast.success("Wallpaper Saved !")
         } catch (err) {
             console.error("Error uploading wallpaper:", err);
+            toast.error("Something went wrong in saveWallpaper!")
         }
     }
 
     const handleSave = async (componentRef: React.RefObject<HTMLDivElement | null>, userId: string | undefined, platform: string, backgroundImage: string | undefined) => {
+        setLoading(true)
         if (!componentRef.current) {
             console.error("❌ Ref is null – component not mounted?");
             return;
@@ -34,12 +43,11 @@ export const useSaveWallpaper = () => {
                 cacheBust: true,
                 pixelRatio: 2,
                 quality: 1,
-                backgroundColor: '#e8e8e8',
+                // backgroundColor: '#e8e8e8',
                 skipFonts: true,
             });
 
             console.log("✅ Image Data URL:", dataUrl.slice(0, 100));
-            console.log(componentRef.current!.innerHTML);
 
             //convert data url to blob for uploading
             const blob = await (await fetch(dataUrl)).blob()
@@ -57,9 +65,11 @@ export const useSaveWallpaper = () => {
             formData.append("userId", userId || "")
 
             await saveWallpaper(formData)
-            // navigate("/dashboard")
+            router.push("/dashboard")
         } catch (err) {
             console.error(`Error exporting as `, err);
+            setLoading(false)
+            toast.error("Something went wrong in handleSave!")
         }
     }
 

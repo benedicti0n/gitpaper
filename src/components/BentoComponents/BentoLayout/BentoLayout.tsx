@@ -1,3 +1,4 @@
+"use client"
 import { useColorPaletteStore, useImageUploadStore } from '@/store';
 import React, { useEffect, useRef } from 'react';
 import ImageContainer from '../ImageContainer';

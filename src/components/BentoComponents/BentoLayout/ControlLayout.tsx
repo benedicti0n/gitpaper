@@ -53,13 +53,11 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                             if (isHomepage) {
                                 router.push("/dashboard");
                             } else if (userId && platform) {
-                                setLoading(true)
                                 handleSave(bentoComponentRef, userId, platform, backgroundImageEntry?.imgUrl);
-                                setLoading(false)
                             }
                         }}
                     >
-                        Save
+                        {isLoading ? "Saving..." : "Save"}
                     </Button>
                 </div>
 
