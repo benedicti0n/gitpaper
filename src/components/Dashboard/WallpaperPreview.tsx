@@ -19,7 +19,6 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import axios from "axios";
-import { Button } from "../ui/button";
 
 interface IWallpaperPreview {
     wallpaperId: string;

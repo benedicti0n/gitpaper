@@ -55,12 +55,12 @@ const DashboardPage = () => {
                     <div className="mt-6  col-span-2">
                         <Section heading="Extension" wallpapers={wallpapers?.extension} />
                     </div>
-                    <div className="mt-10">
+                    {/* <div className="mt-10">
                         <Section heading="Desktop" wallpapers={wallpapers?.desktop} />
                     </div>
                     <div className="flex w-full mt-10">
                         <Section heading="Mobile" wallpapers={wallpapers?.mobile} />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
