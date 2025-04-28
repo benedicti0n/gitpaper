@@ -49,9 +49,20 @@ const Section = (props: SectionProps) => {
                 }
             );
             toast.success("Username Password Saved!")
-        } catch (error) {
-            console.log(error);
-            toast.error("Couldn't save the username password!")
+            //eslint-disable-next-line
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data?.error || error.response.data?.message || 'An error occurred';
+                toast.error(errorMessage);
+            }
+            // If it's a regular error object
+            else if (error.message) {
+                toast.error(error.message);
+            }
+            // Fallback for any other type of error
+            else {
+                toast.error('An unexpected error occurred');
+            }
         } finally {
             setLoading(false)
         }
