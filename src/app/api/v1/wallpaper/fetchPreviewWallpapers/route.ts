@@ -2,9 +2,7 @@ import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    const body = await req.json()
-    const { userId } = body
-    console.log(userId);
+    const { userId } = await req.json()
 
     try {
         const wallpapers = await prisma.userWallpaper.findMany({
@@ -48,9 +46,6 @@ export async function POST(req: Request) {
                 formattedWallpapers.desktop.push(entry);
             }
         });
-
-
-        console.log(formattedWallpapers);
 
         return NextResponse.json({ success: true, wallpapers: formattedWallpapers }, { status: 200 });
     } catch (error) {

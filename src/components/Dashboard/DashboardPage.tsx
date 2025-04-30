@@ -29,10 +29,11 @@ const DashboardPage = () => {
 
     const fetchPreviewWallpapers = async () => {
         try {
-            const response = await axios.post("/api/v1/wallpaper/fetchPreviewWallpapers", {
-                headers: { "Content-Type": "application/json", },
-                body: JSON.stringify({ userId })
-            });
+            const response = await axios.post("/api/v1/wallpaper/fetchPreviewWallpapers",
+                { userId },
+                {
+                    headers: { "Content-Type": "application/json", },
+                });
 
             const data = await response.data;
             console.log(data);
