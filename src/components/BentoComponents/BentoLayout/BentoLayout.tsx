@@ -37,7 +37,7 @@ const BentoLayout = () => {
                     backgroundImage: backgroundImageEntry?.imgUrl
                         ? `url(${backgroundImageEntry.imgUrl.startsWith('data:')
                             ? backgroundImageEntry.imgUrl
-                            : `https://api.allorigins.win/raw?url=${encodeURIComponent(backgroundImageEntry.imgUrl)}`
+                            : `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(backgroundImageEntry.imgUrl)}`
                         })`
                         : '',
                     backgroundSize: 'cover',

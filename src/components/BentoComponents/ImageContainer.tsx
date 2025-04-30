@@ -19,7 +19,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({ position }) => {
                 <img
                     src={imageData.imgUrl.startsWith('data:') ?
                         imageData.imgUrl :
-                        `https://api.allorigins.win/raw?url=${encodeURIComponent(imageData.imgUrl)}`
+                        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(imageData.imgUrl)}`
                     }
                     alt={`${position} image`}
                     className="h-full w-full object-cover"
