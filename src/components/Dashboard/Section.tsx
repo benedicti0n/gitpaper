@@ -1,4 +1,4 @@
-import { useState } from "react"; // 👈 add this
+import { useState } from "react"; // 
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +30,7 @@ interface SectionProps {
 const Section = (props: SectionProps) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [open, setOpen] = useState(false);
     const { isLoading, setLoading } = useLoadingStore()
     const { user } = useUser()
     const userId = user?.id
@@ -49,17 +50,16 @@ const Section = (props: SectionProps) => {
                 }
             );
             toast.success("Username Password Saved!")
+            setOpen(false);
             //eslint-disable-next-line
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data?.error || error.response.data?.message || 'An error occurred';
                 toast.error(errorMessage);
             }
-            // If it's a regular error object
             else if (error.message) {
                 toast.error(error.message);
             }
-            // Fallback for any other type of error
             else {
                 toast.error('An unexpected error occurred');
             }
@@ -72,13 +72,13 @@ const Section = (props: SectionProps) => {
         <div className="w-full h-full flex flex-col">
             <h1 className="font-semibold text-3xl relative mb-2 flex items-center gap-2">
                 {props.heading}
-                <Dialog>
+                <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button variant="outline">Edit Profile</Button>
+                        <Button variant="outline" onClick={() => setOpen(true)}>Set Username and Password</Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Edit profile</DialogTitle>
+                            <DialogTitle>Set Username and Password</DialogTitle>
                             <DialogDescription>
                                 {`Set a username and password for other platform logins.`}
                             </DialogDescription>

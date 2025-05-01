@@ -19,6 +19,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import axios from "axios";
+import { toast } from "sonner";
 
 interface IWallpaperPreview {
     wallpaperId: string;
@@ -41,7 +42,7 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
 
     const deleteWallpaper = async () => {
         try {
-            const response = await axios.post("/api/v1/wallpaper/deleteWallpaper",
+            await axios.post("/api/v1/wallpaper/deleteWallpaper",
                 { wallpaperId, platformOf },
                 {
                     headers: {
@@ -49,12 +50,10 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
                     },
                 })
 
-            const data = await response.data
-            if (data.success) {
-                alert("Wallpaper deleted successfully")
-                window.location.reload()
-            }
+            toast.success("Wallpaper deleted successfully")
+            window.location.reload()
         } catch (error) {
+            toast.error("Failed to delete wallpaper")
             console.error(error)
         }
     }
@@ -82,7 +81,7 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
         <div className="relative">
             {modalContent}
             <div className="absolute top-0 right-6 m-1 z-30 flex">
-                <MiniButton text="Edit" variant="default" className="mx-1" onClickFunction={() => { router.push(`/edit/${props.wallpaperId}`) }}><LucidePen className="h-4 w-4" /></MiniButton>
+                {/* <MiniButton text="Edit" variant="default" className="mx-1" onClickFunction={() => { router.push(`/edit/${props.wallpaperId}`) }}><LucidePen className="h-4 w-4" /></MiniButton> */}
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>

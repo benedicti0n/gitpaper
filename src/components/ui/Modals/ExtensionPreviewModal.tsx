@@ -18,7 +18,7 @@ const ExtensionPreviewModal = ({ children, bentoLink, backgroundImageLink, onCli
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
                 }}
-                    className='w-full h-full flex justify-center items-center border rounded-b-xl'
+                    className='w-full h-full flex justify-center items-center rounded-xl'
                 >
                     <img src={`${bentoLink}`} alt={`${bentoLink}`} className='w-[60%]' />
                 </div>
