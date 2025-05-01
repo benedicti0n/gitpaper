@@ -35,8 +35,6 @@ const getUserStats = (userData: UserData): UserDetails => {
         0
     );
 
-    // console.log('Raw org data:', JSON.stringify(userData.organizationsContributedTo.nodes, null, 2));
-
     // Get unique organizations contributed to
     const contributedOrgs = userData.organizationsContributedTo.nodes
         .map(node => ({

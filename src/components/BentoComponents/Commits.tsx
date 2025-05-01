@@ -8,7 +8,7 @@ const Commits = () => {
     return (
         <div className="rounded-xl p-4" style={{ backgroundColor: `${currentPalette.main2}` }}>
             <h1 className="w-full flex text-sm font-[ChivoThin]"><LucideGitCommit className="h-6 w-6 mr-1" />Commits</h1>
-            <h1 className="text-lg pt-2 font-[ChivoMedium]">{githubData.userDetails.totalCommits}</h1>
+            <h1 className="text-lg pt-2 font-[ChivoMedium]">{githubData?.userDetails.totalCommits}</h1>
         </div>
     )
 }
