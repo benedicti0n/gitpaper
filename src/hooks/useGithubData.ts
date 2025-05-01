@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useGithubDataStore } from "@/store";
+import { toast } from "sonner";
 
 const CACHE_DURATION = 10 * 60 * 1000; // 5 minutes in milliseconds
 const CACHE_KEY = 'githubDataCache';
@@ -30,7 +31,7 @@ export const useGithubData = () => {
 
     const fetchGithubData = async (username: string) => {
         if (!username.trim()) {
-            alert("Enter a GitHub username!");
+            toast.error("Enter a GitHub username!");
             return;
         }
 
@@ -53,9 +54,10 @@ export const useGithubData = () => {
                 timestamp: Date.now()
             };
             localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-        } catch (err) {
-            console.error("GitHub API Fetch Error:", err);
-            setError("Failed to fetch GitHub stats");
+            toast.success("GitHub stats fetched successfully");
+        } catch (error) {
+            toast.error("No user found! Try again.");
+            console.error(error);
             setGithubData(null);
         } finally {
             setLoading(false);
