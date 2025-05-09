@@ -13,6 +13,7 @@ export async function POST(req: Request) {
         const platformOf = formData.get('platformOf')!.toString();
         const backgroundImage = formData.get('backgroundImage') as File | null; // if this field is not sent from frontend then the field will be null.
         const backgroundImageUrl = formData.get('backgroundImageUrl')?.toString();
+        const githubUsername = formData.get('githubUsername')!.toString();
         const userId = formData.get('userId')!.toString();
 
         if (!bentoImageFile || !platformOf || !userId) {
@@ -55,7 +56,8 @@ export async function POST(req: Request) {
                 platform: platformUpperCase as Platform,
                 bentoLink: bentoWallpaperS3Link,
                 backgroundImageLink: backgroundWallpaperS3Link,
-                userId,
+                githubUsername,
+                userId
             },
         });
 

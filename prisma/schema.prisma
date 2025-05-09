@@ -38,6 +38,7 @@ model PlatformsConnectedTo {
 model UserWallpaper {
   id                  String   @id @default(cuid()) // wallpaperId
   platform            Platform
+  githubUsername      String  @default("")
   bentoLink           String  @default("")
   backgroundImageLink String  @default("")
   userId              String

@@ -28,7 +28,7 @@ export const useSaveWallpaper = () => {
         }
     }
 
-    const handleSave = async (componentRef: React.RefObject<HTMLDivElement | null>, userId: string | undefined, platform: string, backgroundImage: string | undefined) => {
+    const handleSave = async (componentRef: React.RefObject<HTMLDivElement | null>, githubUsername: string | undefined, userId: string | undefined, platform: string, backgroundImage: string | undefined) => {
         setLoading(true)
         if (!componentRef.current) {
             console.error("❌ Ref is null – component not mounted?");
@@ -63,7 +63,8 @@ export const useSaveWallpaper = () => {
             } else if (backgroundImage) {
                 formData.append("backgroundImageUrl", backgroundImage);
             }
-            formData.append("userId", userId || "")
+            formData.append("githubUsername", githubUsername as string)
+            formData.append("userId", userId as string)
 
             await saveWallpaper(formData)
             router.push("/dashboard")

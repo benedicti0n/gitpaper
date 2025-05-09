@@ -1,6 +1,6 @@
 import React from 'react'
 import ColorPalleteControl from '../ColorPalleteControl'
-import { useColorPaletteStore, useImageUploadStore, useLoadingStore } from '@/store';
+import { useColorPaletteStore, useGithubDataStore, useImageUploadStore, useLoadingStore } from '@/store';
 import { ImageUploadControl } from '@/components/ImageUploadControl';
 import { Button } from '@/components/ui/button';
 import { useSaveWallpaper } from '@/hooks/useSaveWallpaper';
@@ -11,6 +11,8 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
     const { isLoading, setLoading } = useLoadingStore()
     const { currentPalette } = useColorPaletteStore();
     const { data } = useImageUploadStore();
+    const { githubData } = useGithubDataStore()
+    const githubUsername = githubData?.userDetails.username
     const backgroundImageEntry = data.find(entry => entry.position === "Background");
 
     const { handleSave } = useSaveWallpaper()
@@ -44,7 +46,7 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                     <Button
                         disabled={isLoading}
                         className='bg-white text-black hover:text-white w-full'
-                        onClick={() => {
+                        onClick={async () => {
                             if (!isSignedIn) {
                                 openSignIn();
                                 return;
@@ -53,7 +55,9 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                             if (isHomepage) {
                                 router.push("/dashboard");
                             } else if (userId && platform) {
-                                handleSave(bentoComponentRef, userId, platform, backgroundImageEntry?.imgUrl);
+                                setLoading(true)
+                                await handleSave(bentoComponentRef, githubUsername, userId, platform, backgroundImageEntry?.imgUrl);
+                                setLoading(false)
                             }
                         }}
                     >
