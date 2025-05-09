@@ -2,6 +2,7 @@ import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Section from './Section';
+import { DotPattern } from '../magicui/dot-pattern';
 
 interface IWallpapers {
     extension: [{
@@ -53,7 +54,8 @@ const DashboardPage = () => {
     }, [])
     return (
         <div className='h-screen w-full flex items-center justify-center pt-24'>
-            <div className='h-full w-4/5'>
+            <DotPattern height={40} width={40} />
+            <div className='h-full w-4/5 relative z-20'>
                 <h1 className='text-4xl font-ChivoMedium pb-4'>Create Wallpaper</h1>
                 <div className='w-full grid grid-cols-2'>
                     <div className="mt-6  col-span-2">

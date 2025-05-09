@@ -17,6 +17,7 @@ import Commits from '../Commits';
 import TotalContributionAndOrgs from '../TotalContributionAndOrgs';
 import ControlLayout from './ControlLayout';
 import Watermark from '../Watermark';
+import { DotPattern } from '@/components/magicui/dot-pattern';
 
 const BentoLayout = () => {
     const { currentPalette } = useColorPaletteStore();
@@ -31,9 +32,10 @@ const BentoLayout = () => {
 
     return (
         <div className='min-h-screen w-full flex flex-col items-center justify-center'>
+            <DotPattern height={40} width={40} />
             <ControlLayout bentoComponentRef={componentRef} />
             <div
-                className='min-h-screen w-full flex items-center justify-center'
+                className='min-h-screen w-full flex items-center justify-center relative z-20'
                 style={{
                     backgroundImage: backgroundImageEntry?.imgUrl
                         ? `url(${backgroundImageEntry.imgUrl.startsWith('data:')

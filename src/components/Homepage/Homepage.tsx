@@ -11,6 +11,7 @@ import { useGithubData } from '@/hooks/useGithubData'
 import BentoLayout from '../BentoComponents/BentoLayout/BentoLayout'
 import { useGithubDataStore } from '@/store'
 import { useLoadingStore } from '@/store'
+import { DotPattern } from '../magicui/dot-pattern'
 
 const Homepage = () => {
     const [username, setUsername] = useState<string>("");
@@ -33,7 +34,8 @@ const Homepage = () => {
 
     return (
         <div className="w-full mx-auto min-h-screen flex flex-col items-center relative">
-            <div className="w-2/3 h-full flex flex-col items-center mt-56 py-16">
+            <DotPattern height={40} width={40} />
+            <div className="w-2/3 h-full flex flex-col items-center mt-56 py-16 relative z-20">
                 <span className='text-8xl font-extrabold'>
                     Git
                     <LineShadowText shadowColor='black' className='italic'>

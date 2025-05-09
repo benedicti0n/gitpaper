@@ -5,6 +5,7 @@ import { Input } from '../ui/Input';
 import { Button } from '../ui/button';
 import { LucideSearch } from 'lucide-react';
 import BentoLayout from '../BentoComponents/BentoLayout/BentoLayout';
+import { DotPattern } from '../magicui/dot-pattern';
 
 const CreateWallpaperPage = () => {
     const [username, setUsername] = useState<string>("");
@@ -23,24 +24,23 @@ const CreateWallpaperPage = () => {
     };
 
     return (
-        <div className="w-full min-h-screen flex flex-col justify-center items-center relative">
-            <div className="w-full h-full flex flex-col justify-center items-center py-16">
-                {
-                    !githubData &&
-                    <div className="mt-4 gap-1 flex">
-                        <Input
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Enter GitHub username"
-                            className='bg-white'
-                        />
-                        <Button onClick={() => handleSearch()}>
-                            <LucideSearch />
-                            Search
-                        </Button>
-                    </div>
-                }
+        <div className={`w-full min-h-screen flex flex-col justify-center items-center relative ${githubData && "pt-20"}`}>
+            <DotPattern height={40} width={40} />
+            <div className="w-full h-full flex flex-col justify-center items-center pt-12 relative">
+                <h1 className='text-6xl font-extrabold pb-4 relative z-20'>Create Your Gitpaper</h1>
+                <div className="mt-4 gap-1 flex relative z-40">
+                    <Input
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Enter GitHub username"
+                        className='bg-white'
+                    />
+                    <Button onClick={() => handleSearch()}>
+                        <LucideSearch />
+                        Search
+                    </Button>
+                </div>
 
                 {githubData &&
                     <BentoLayout />
