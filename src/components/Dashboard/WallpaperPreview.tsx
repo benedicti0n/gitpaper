@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation";
 
 import MiniButton from "../ui/MiniButton"
-import { LucidePen, LucideTrash2, Presentation } from "lucide-react"
+import { LucideTrash2, Presentation } from "lucide-react"
 import BrowserMockup from "../magicui/Mockups/BrowserMockup";
 // import SmallIPhoneMockup from "../magicui/Mockups/SmallIphoneMockup";
 // import DesktopMockup from "../magicui/Mockups/DesktopMockup";

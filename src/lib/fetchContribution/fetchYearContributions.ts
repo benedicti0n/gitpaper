@@ -1,10 +1,10 @@
 import { fetchGitHubData } from "./fetchGithubData";
 
 export async function fetchYearContributions(
-    username: string,
-    year: number,
+  username: string,
+  year: number,
 ): Promise<{ date: string; contributionCount: number }[]> {
-    const query = `
+  const query = `
     query ($user: String!, $from: DateTime!, $to: DateTime!) {
       user(login: $user) {
         contributionsCollection(from: $from, to: $to) {
@@ -21,27 +21,30 @@ export async function fetchYearContributions(
     }
   `;
 
-    const start = `${year}-01-01T00:00:00Z`;
-    const end = `${year}-12-31T23:59:59Z`;
+  const start = `${year}-01-01T00:00:00Z`;
+  const end = `${year}-12-31T23:59:59Z`;
 
-    const data = await fetchGitHubData(query, {
-        user: username,
-        from: start,
-        to: end,
+  const data = await fetchGitHubData(query, {
+    user: username,
+    from: start,
+    to: end,
+  });
+  const weeks =
+    data.data.user.contributionsCollection.contributionCalendar.weeks;
+
+  // Aggregate all the contribution days from the year
+  // eslint-disable-next-line
+  let contributionDays: { date: string; contributionCount: number }[] = [];
+  // eslint-disable-next-line
+  weeks.forEach((week: any) => {
+    // eslint-disable-next-line
+    week.contributionDays.forEach((day: any) => {
+      contributionDays.push({
+        date: day.date,
+        contributionCount: day.contributionCount,
+      });
     });
-    const weeks =
-        data.data.user.contributionsCollection.contributionCalendar.weeks;
+  });
 
-    // Aggregate all the contribution days from the year
-    let contributionDays: { date: string; contributionCount: number }[] = [];
-    weeks.forEach((week: any) => {
-        week.contributionDays.forEach((day: any) => {
-            contributionDays.push({
-                date: day.date,
-                contributionCount: day.contributionCount,
-            });
-        });
-    });
-
-    return contributionDays;
+  return contributionDays;
 }

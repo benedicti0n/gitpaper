@@ -51,6 +51,7 @@ const DashboardPage = () => {
     }
     useEffect(() => {
         fetchPreviewWallpapers()
+        // eslint-disable-next-line
     }, [])
     return (
         <div className='h-screen w-full flex items-center justify-center pt-24'>

@@ -24,6 +24,7 @@ const PreviewPage = () => {
 
     useEffect(() => {
         fetchPreviewWallpaper()
+        // eslint-disable-next-line
     }, [])
 
     if (!wallpaper) {

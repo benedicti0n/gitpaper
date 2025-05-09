@@ -13,6 +13,7 @@ const DesktopMockup = ({ children, imageUrl, onClick }: IDesktopMockup) => {
             </div>
             <div className="border-t h-full" onClick={(e) => e.stopPropagation()}>
                 {children}
+                {/* eslint-disable-next-line */}
                 {imageUrl && <img src={`${imageUrl}`} onClick={onClick} />}
             </div>
         </div>

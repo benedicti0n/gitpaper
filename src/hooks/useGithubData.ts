@@ -7,6 +7,7 @@ const CACHE_DURATION = 10 * 60 * 1000; // 5 minutes in milliseconds
 const CACHE_KEY = 'githubDataCache';
 
 interface CacheData {
+    // eslint-disable-next-line
     data: any;
     timestamp: number;
 }

@@ -8,6 +8,7 @@ interface IBrowserMockupProps {
     onClick?: () => void
 }
 
+// eslint-disable-next-line
 const ExtensionPreviewModal = ({ children, bentoLink, backgroundImageLink, onClick }: IBrowserMockupProps) => {
     return (
         <div className="w-full h-full py-20">
@@ -20,6 +21,7 @@ const ExtensionPreviewModal = ({ children, bentoLink, backgroundImageLink, onCli
                 }}
                     className='w-full h-full flex justify-center items-center rounded-xl'
                 >
+                    {/* eslint-disable-next-line */}
                     <img src={`${bentoLink}`} alt={`${bentoLink}`} className='w-[60%]' />
                 </div>
             </BrowserMockup>

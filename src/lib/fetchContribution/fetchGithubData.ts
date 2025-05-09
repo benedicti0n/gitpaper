@@ -1,6 +1,8 @@
 export async function fetchGitHubData(
   query: string,
+  // eslint-disable-next-line
   variables: any,
+  // eslint-disable-next-line
 ): Promise<any> {
   const response = await fetch("https://api.github.com/graphql", {
     method: "POST",

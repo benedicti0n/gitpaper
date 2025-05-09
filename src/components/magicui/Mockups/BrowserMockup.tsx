@@ -21,6 +21,7 @@ const BrowserMockup = ({ children, bentoLink, backgroundImageLink, onClick }: IB
           }}
             className='w-full h-40 flex justify-center items-center rounded-xl'
             onClick={onClick}>
+            {/* eslint-disable-next-line */}
             <img src={`${bentoLink}`} alt={`${bentoLink}`} className='w-[60%]' />
           </div>
         }

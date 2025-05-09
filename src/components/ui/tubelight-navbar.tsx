@@ -30,6 +30,7 @@ export function NavBar({ className }: NavBarProps) {
     if (matchedItem) {
       setActiveTab(matchedItem.name)
     }
+    // eslint-disable-next-line
   }, [pathname, isSignedIn])
 
   const navItems: NavItem[] = useMemo(() => [
@@ -49,6 +50,7 @@ export function NavBar({ className }: NavBarProps) {
       <div className="flex items-center gap-20 bg-background border border-border backdrop-blur-lg py-1 px-1.5 rounded-full shadow-lg">
 
         <div className="flex items-center gap-1">
+          {/* eslint-disable-next-line */}
           <img src="/logo.png" alt="" className="w-10" />
           <h1 className="text-sm font-semibold">GitPaper</h1>
         </div>

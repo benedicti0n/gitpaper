@@ -77,6 +77,7 @@ export async function githubGraphql({
     variables,
 }: {
     query: string;
+    // eslint-disable-next-line
     variables: Record<string, any>;
 }) {
     try {

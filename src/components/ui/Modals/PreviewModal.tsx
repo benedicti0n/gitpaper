@@ -1,6 +1,6 @@
 import ExtensionPreviewModal from './ExtensionPreviewModal';
-import MobilePreviewModal from './MobilePreviewModal';
-import DesktopPreviewModal from './DesktopPreviewModal';
+// import MobilePreviewModal from './MobilePreviewModal';
+// import DesktopPreviewModal from './DesktopPreviewModal';
 
 interface IPreviewModal {
     bentoLink: string;

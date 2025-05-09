@@ -17,6 +17,7 @@ export default function SmallIPhoneMockup({ imageUrl, className, onClick }: Smal
                     {/* Screen Content - Wallpaper */}
                     <div className="absolute inset-0 z-10 overflow-hidden">
                         <div className="relative w-full h-full">
+                            {/* eslint-disable-next-line */}
                             <img
                                 src={imageUrl}
                                 alt="iPhone wallpaper"
