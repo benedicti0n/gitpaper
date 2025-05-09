@@ -17,6 +17,8 @@ import axios from "axios";
 import { useLoadingStore } from "@/store";
 import { toast } from "sonner";
 import { useUser } from "@clerk/nextjs";
+import MiniButton from "../ui/MiniButton";
+import { Link } from "lucide-react";
 
 interface SectionProps {
     heading: string;
@@ -75,7 +77,7 @@ const Section = (props: SectionProps) => {
                 {props.heading}
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button variant="outline" onClick={() => setOpen(true)}>Set Username and Password</Button>
+                        <MiniButton text="Set Username-Password for Extension Login" onClickFunction={() => setOpen(true)}> <Link className="h-4 w-4" /> </MiniButton>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
