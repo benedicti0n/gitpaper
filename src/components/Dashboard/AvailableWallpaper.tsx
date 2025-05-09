@@ -8,6 +8,7 @@ interface IPlatformDetails {
     platform: string;
     wallpapers: [{
         wallpaperId: string;
+        githubUsername: string;
         bentoLink: string;
         backgroundImageLink: string;
     }] | undefined;
@@ -33,6 +34,7 @@ const AvailableWallpaper = (props: IPlatformDetails) => {
                                     <WallpaperPreview
                                         key={wallpaper.wallpaperId}
                                         wallpaperId={wallpaper.wallpaperId}
+                                        githubUsername={wallpaper.githubUsername}
                                         bentoLink={wallpaper.bentoLink}
                                         backgroundImageLink={wallpaper.backgroundImageLink}
                                         platformOf={platform}

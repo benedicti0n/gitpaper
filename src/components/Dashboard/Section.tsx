@@ -22,6 +22,7 @@ interface SectionProps {
     heading: string;
     wallpapers: [{
         wallpaperId: string,
+        githubUsername: string,
         bentoLink: string,
         backgroundImageLink: string,
     }] | undefined;

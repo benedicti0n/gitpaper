@@ -10,6 +10,7 @@ export async function POST(req: Request) {
             select: {
                 id: true,
                 platform: true,
+                githubUsername: true,
                 bentoLink: true,
                 backgroundImageLink: true,
             }
@@ -17,6 +18,7 @@ export async function POST(req: Request) {
 
         type FormattedWallpaper = {
             wallpaperId: string;
+            githubUsername: string;
             bentoLink: string;
             backgroundImageLink: string;
         };
@@ -34,6 +36,7 @@ export async function POST(req: Request) {
         wallpapers.forEach(wallpaper => {
             const entry: FormattedWallpaper = {
                 wallpaperId: wallpaper.id,
+                githubUsername: wallpaper.githubUsername,
                 bentoLink: wallpaper.bentoLink,
                 backgroundImageLink: wallpaper.backgroundImageLink,
             };

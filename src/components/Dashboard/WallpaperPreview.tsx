@@ -23,10 +23,11 @@ import { toast } from "sonner";
 
 interface IWallpaperPreview {
     wallpaperId: string;
+    platformOf: string;
+    githubUsername: string;
+    userId: string | undefined;
     bentoLink: string;
     backgroundImageLink: string;
-    platformOf: string;
-    userId: string | undefined;
 }
 
 const WallpaperPreview = (props: IWallpaperPreview) => {
@@ -39,6 +40,7 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
 
     const platformOf = props.platformOf
     const wallpaperId = props.wallpaperId
+    const githubUsername = props.githubUsername
 
     const deleteWallpaper = async () => {
         try {
@@ -81,7 +83,7 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
         <div className="relative">
             {modalContent}
             <div className="absolute top-0 right-6 m-1 z-30 flex">
-                {/* <MiniButton text="Edit" variant="default" className="mx-1" onClickFunction={() => { router.push(`/edit/${props.wallpaperId}`) }}><LucidePen className="h-4 w-4" /></MiniButton> */}
+                <MiniButton text="Get Preview Link" variant="default" className="mx-1" onClickFunction={() => { router.push(`/preview/${githubUsername}/${wallpaperId}`) }}><LucidePen className="h-4 w-4" /></MiniButton>
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>

@@ -6,16 +6,19 @@ import Section from './Section';
 interface IWallpapers {
     extension: [{
         wallpaperId: string,
+        githubUsername: string,
         bentoLink: string,
         backgroundImageLink: string,
     }];
     mobile: [{
         wallpaperId: string,
+        githubUsername: string,
         bentoLink: string,
         backgroundImageLink: string,
     }];
     desktop: [{
         wallpaperId: string,
+        githubUsername: string,
         bentoLink: string,
         backgroundImageLink: string,
     }];
