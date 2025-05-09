@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation";
 
 import MiniButton from "../ui/MiniButton"
-import { LucidePen, LucideTrash2 } from "lucide-react"
+import { LucidePen, LucideTrash2, Presentation } from "lucide-react"
 import BrowserMockup from "../magicui/Mockups/BrowserMockup";
 // import SmallIPhoneMockup from "../magicui/Mockups/SmallIphoneMockup";
 // import DesktopMockup from "../magicui/Mockups/DesktopMockup";
@@ -83,7 +83,7 @@ const WallpaperPreview = (props: IWallpaperPreview) => {
         <div className="relative">
             {modalContent}
             <div className="absolute top-0 right-6 m-1 z-30 flex">
-                <MiniButton text="Get Preview Link" variant="default" className="mx-1" onClickFunction={() => { router.push(`/preview/${githubUsername}/${wallpaperId}`) }}><LucidePen className="h-4 w-4" /></MiniButton>
+                <MiniButton text="Get Preview Link" variant="default" className="mx-1" onClickFunction={() => { router.push(`/preview/${githubUsername}/${wallpaperId}`) }}><Presentation className="h-4 w-4" /></MiniButton>
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
