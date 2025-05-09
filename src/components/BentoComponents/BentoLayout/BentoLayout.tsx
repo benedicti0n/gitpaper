@@ -16,6 +16,7 @@ import TotalStars from '../TotalStars';
 import Commits from '../Commits';
 import TotalContributionAndOrgs from '../TotalContributionAndOrgs';
 import ControlLayout from './ControlLayout';
+import Watermark from '../Watermark';
 
 const BentoLayout = () => {
     const { currentPalette } = useColorPaletteStore();
@@ -48,7 +49,7 @@ const BentoLayout = () => {
             >
                 <div
                     ref={componentRef}
-                    className="h-164 w-264 p-2 rounded-3xl"
+                    className="h-164 w-264 p-2 rounded-3xl relative"
                     style={{
                         background: `linear-gradient(to bottom right, ${currentPalette.main4}, ${currentPalette.main2}, ${currentPalette.main4})`,
                         boxShadow: backgroundImageEntry?.imgUrl ? '' : `0px 10px 20px -3px ${currentPalette.main3}`,
@@ -106,6 +107,8 @@ const BentoLayout = () => {
                             <Heatmap />
                         </div>
                     </div>
+
+                    <div className='absolute -bottom-1 right-[38%]'><Watermark /></div>
                 </div>
             </div>
         </div>
