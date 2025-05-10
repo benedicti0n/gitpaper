@@ -11,17 +11,28 @@ export const useSaveWallpaper = () => {
   const router = useRouter();
   const saveWallpaper = async (formData: FormData) => {
     try {
-      await axios.post("/api/v1/wallpaper/saveWallpaper", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.post(
+        "/api/v1/wallpaper/saveWallpaper",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       localStorage.removeItem("cachedWallpapers");
 
       setLoading(false);
       toast.success("Wallpaper Saved !");
-    } catch (err) {
+    } catch (err: any) {
+      setLoading(false);
+
+      if (err.response && err.response.status === 400) {
+        toast.error(err.response.data.error || "Bad request");
+        return;
+      }
+
       console.error("Error uploading wallpaper:", err);
       toast.error("Something went wrong in saveWallpaper!");
     }
