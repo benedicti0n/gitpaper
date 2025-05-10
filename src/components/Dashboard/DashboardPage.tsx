@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Section from "./Section";
 import { DotPattern } from "../magicui/dot-pattern";
+import { Skeleton } from "../ui/skeleton";
 
 interface IWallpapers {
   extension: [
@@ -31,7 +32,7 @@ interface IWallpapers {
   ];
 }
 
-const DashboardPage = () => {
+const DashboardPage = (isLoaded: any) => {
   const { user } = useUser();
   const userId = user?.id;
 
@@ -85,14 +86,15 @@ const DashboardPage = () => {
         <h1 className="text-4xl font-ChivoMedium pb-4">Create Wallpaper</h1>
         <div className="w-full grid grid-cols-2">
           <div className="mt-6  col-span-2">
-            <Section heading="Extension" wallpapers={wallpapers?.extension} />
+            {!isLoaded ? (
+              <div>
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            ) : (
+              <Section heading="Extension" wallpapers={wallpapers?.extension} />
+            )}
           </div>
-          {/* <div className="mt-10">
-                        <Section heading="Desktop" wallpapers={wallpapers?.desktop} />
-                    </div>
-                    <div className="flex w-full mt-10">
-                        <Section heading="Mobile" wallpapers={wallpapers?.mobile} />
-                    </div> */}
         </div>
       </div>
     </div>
