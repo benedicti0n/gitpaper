@@ -59,7 +59,6 @@ export const useSaveWallpaper = () => {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1,
-        // backgroundColor: '#e8e8e8',
         skipFonts: true,
       });
 
