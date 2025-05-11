@@ -43,7 +43,9 @@ export const useSaveWallpaper = () => {
     githubUsername: string | undefined,
     userId: string | undefined,
     platform: string,
-    backgroundImage: string | undefined
+    backgroundImage: string | undefined,
+    githubDataString: string,
+    theme: string
   ) => {
     setLoading(true);
     if (!componentRef.current) {
@@ -59,7 +61,6 @@ export const useSaveWallpaper = () => {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1,
-        skipFonts: true,
       });
 
       console.log("✅ Image Data URL:", dataUrl.slice(0, 100));
@@ -79,6 +80,8 @@ export const useSaveWallpaper = () => {
       }
       formData.append("githubUsername", githubUsername as string);
       formData.append("userId", userId as string);
+      formData.append("githubData", githubDataString);
+      formData.append("theme", theme);
 
       await saveWallpaper(formData);
       router.push("/dashboard");

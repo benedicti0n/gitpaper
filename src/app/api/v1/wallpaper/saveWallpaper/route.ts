@@ -14,6 +14,8 @@ export async function POST(req: Request) {
     const backgroundImageUrl = formData.get("backgroundImageUrl")?.toString();
     const githubUsername = formData.get("githubUsername")!.toString();
     const userId = formData.get("userId")!.toString();
+    const githubData = formData.get("githubData")!.toString();
+    const theme = formData.get("theme")!.toString();
 
     if (!bentoImageFile || !platformOf || !userId) {
       return NextResponse.json(
@@ -73,6 +75,8 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log(githubData, theme);
+
     const newWallpaper = await prisma.userWallpaper.create({
       data: {
         platform: platformUpperCase as Platform,
@@ -80,6 +84,8 @@ export async function POST(req: Request) {
         backgroundImageLink: backgroundWallpaperS3Link,
         githubUsername,
         userId,
+        githubData: githubData,
+        theme: theme,
       },
     });
 

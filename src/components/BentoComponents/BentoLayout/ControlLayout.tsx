@@ -13,19 +13,14 @@ import { useClerk, useSession, useUser } from "@clerk/nextjs";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const ControlLayout = ({
-  bentoComponentRef,
-}: {
-  bentoComponentRef: React.RefObject<HTMLDivElement | null>;
-}) => {
-  const { isLoading, setLoading } = useLoadingStore();
-  const { currentPalette } = useColorPaletteStore();
-  const { data } = useImageUploadStore();
-  const { githubData } = useGithubDataStore();
-  const githubUsername = githubData?.userDetails.username;
-  const backgroundImageEntry = data.find(
-    (entry) => entry.position === "Background"
-  );
+const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObject<HTMLDivElement | null> }) => {
+    const { isLoading, setLoading } = useLoadingStore()
+    const { currentPalette } = useColorPaletteStore();
+    const { data } = useImageUploadStore();
+    const { githubData } = useGithubDataStore()
+    const githubUsername = githubData?.userDetails.username
+    const githubDataString = JSON.stringify(githubData)
+    const backgroundImageEntry = data.find(entry => entry.position === "Background");
 
   const { handleSave } = useSaveWallpaper();
 
@@ -73,24 +68,16 @@ const ControlLayout = ({
               if (isHomepage) {
                 router.push("/dashboard");
               } else if (userId && platform) {
-                const imageUrl = backgroundImageEntry?.imgUrl;
-
-                setLoading(true);
-                await handleSave(
-                  bentoComponentRef,
-                  githubUsername,
-                  userId,
-                  platform,
-                  imageUrl
-                );
-                setLoading(false);
-              }
-            }}
-          >
-            {isLoading ? "Saving..." : "Save"}
-          </Button>
-        </div>
-
+                                setLoading(true)
+                                await handleSave(bentoComponentRef, githubUsername, userId, platform, backgroundImageEntry?.imgUrl, githubDataString, currentPalette.name);
+                                setLoading(false)
+                            }
+                        }}
+                    >
+                        {isLoading ? "Saving..." : "Save"}
+                    </Button>
+                </div>
+        
         {/* Image Upload Section */}
         <div
           className="w-1/2 p-5 rounded-xl shadow-md font-[ChivoRegular]"
