@@ -21,6 +21,7 @@ model User {
   platformsConnectedTo   PlatformsConnectedTo? @relation("UserPlatforms", fields: [platformsConnectedToId], references: [id])
   platformsConnectedToId String?               @unique // Added @unique to enforce one-to-one
   wallpapers             UserWallpaper[]
+  githubData             String?               @default("")
   createdAt              DateTime              @default(now())
   updatedAt              DateTime              @updatedAt
 }
@@ -39,6 +40,7 @@ model UserWallpaper {
   id                  String   @id @default(cuid()) // wallpaperId
   platform            Platform
   githubUsername      String  @default("")
+  theme               String  @default("")
   bentoLink           String  @default("")
   backgroundImageLink String  @default("")
   userId              String
