@@ -30,13 +30,18 @@ export function NavBar({ className }: NavBarProps) {
     if (matchedItem) {
       setActiveTab(matchedItem.name)
     }
+
+    if (pathname === "/extension/create") {
+      setActiveTab("Dashboard")
+    }
     // eslint-disable-next-line
   }, [pathname, isSignedIn])
+
 
   const navItems: NavItem[] = useMemo(() => [
     { name: 'Home', url: '/', icon: Home },
     ...(isSignedIn ? [{ name: 'Dashboard', url: '/dashboard', icon: User }] : []),
-    { name: 'Download', url: '/download', icon: Briefcase },
+    // { name: 'Download', url: '/download', icon: Briefcase },
     { name: 'Pricing', url: '/pricing', icon: DollarSign },
   ], [isSignedIn])
 
