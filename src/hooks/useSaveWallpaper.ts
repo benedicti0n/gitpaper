@@ -43,7 +43,9 @@ export const useSaveWallpaper = () => {
     githubUsername: string | undefined,
     userId: string | undefined,
     platform: string,
-    backgroundImage: string | undefined
+    backgroundImage: string | undefined,
+    githubDataString: string,
+    theme: string
   ) => {
     setLoading(true);
     if (!componentRef.current) {
@@ -80,6 +82,8 @@ export const useSaveWallpaper = () => {
       }
       formData.append("githubUsername", githubUsername as string);
       formData.append("userId", userId as string);
+      formData.append("githubData", githubDataString);
+      formData.append("theme", theme);
 
       await saveWallpaper(formData);
       router.push("/dashboard");

@@ -13,6 +13,7 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
     const { data } = useImageUploadStore();
     const { githubData } = useGithubDataStore()
     const githubUsername = githubData?.userDetails.username
+    const githubDataString = JSON.stringify(githubData)
     const backgroundImageEntry = data.find(entry => entry.position === "Background");
 
     const { handleSave } = useSaveWallpaper()
@@ -56,7 +57,7 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                                 router.push("/dashboard");
                             } else if (userId && platform) {
                                 setLoading(true)
-                                await handleSave(bentoComponentRef, githubUsername, userId, platform, backgroundImageEntry?.imgUrl);
+                                await handleSave(bentoComponentRef, githubUsername, userId, platform, backgroundImageEntry?.imgUrl, githubDataString, currentPalette.name);
                                 setLoading(false)
                             }
                         }}

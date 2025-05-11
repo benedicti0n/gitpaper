@@ -7,22 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Platform {
-  EXTENSION
-  MOBILE
-  DESKTOP
-}
-
 model User {
-  id                     String                @id @default(cuid()) // userId
+  id                     String                @id @default(cuid())
   email                  String                @unique
-  username               String?               @unique
-  password               String?
-  platformsConnectedTo   PlatformsConnectedTo? @relation("UserPlatforms", fields: [platformsConnectedToId], references: [id])
-  platformsConnectedToId String?               @unique // Added @unique to enforce one-to-one
-  wallpapers             UserWallpaper[]
+  platformsConnectedToId String?               @unique
   createdAt              DateTime              @default(now())
   updatedAt              DateTime              @updatedAt
+  password               String?
+  username               String?               @unique
+  platformsConnectedTo   PlatformsConnectedTo? @relation("UserPlatforms", fields: [platformsConnectedToId], references: [id])
+  wallpapers             UserWallpaper[]
 }
 
 model PlatformsConnectedTo {
@@ -30,20 +24,26 @@ model PlatformsConnectedTo {
   extension Boolean  @default(false)
   mobile    Boolean  @default(false)
   desktop   Boolean  @default(false)
-  user      User?    @relation("UserPlatforms") // Only define relation name here
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      User?    @relation("UserPlatforms")
 }
 
 model UserWallpaper {
-  id                  String   @id @default(cuid()) // wallpaperId
+  id                  String   @id @default(cuid())
   platform            Platform
-  githubUsername      String  @default("")
-  githubData          String  @default("")
-  theme               String  @default("")
-  bentoLink           String  @default("")
-  backgroundImageLink String  @default("")
   userId              String
+  createdAt           DateTime @default(now())
+  backgroundImageLink String   @default("")
+  bentoLink           String   @default("")
+  githubUsername      String   @default("")
+  theme               String   @default("")
+  githubData          Json     @default("{}")
   user                User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+}
+
+enum Platform {
+  EXTENSION
+  MOBILE
+  DESKTOP
 }
