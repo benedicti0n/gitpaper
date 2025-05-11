@@ -61,8 +61,7 @@ export const useSaveWallpaper = () => {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1,
-        // backgroundColor: '#e8e8e8',
-        skipFonts: true,
+        // skipFonts: true,
       });
 
       console.log("✅ Image Data URL:", dataUrl.slice(0, 100));
