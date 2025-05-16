@@ -4,9 +4,9 @@ import React, { useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useNavStore } from "@/store" // Import Zustand store
-import { ArrowRight, Briefcase, DollarSign, Home, LucideIcon, User } from "lucide-react"
+import { ArrowRight, DollarSign, Home, LucideIcon, User } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { SignedIn, SignedOut, SignInButton, UserButton, useSession } from "@clerk/nextjs"
+import { SignedIn, SignedOut, UserButton, useSession } from "@clerk/nextjs"
 import { GlowEffect } from "./glow-effect"
 import { usePathname } from "next/navigation"
 
@@ -113,12 +113,10 @@ export function NavBar({ className }: NavBarProps) {
               duration={3}
               scale={0.9}
             />
-            <SignInButton>
-              <button className="relative bg-background cursor-pointer text-sm font-semibold px-6 py-2 gap-2 rounded-full flex items-center justify-center">
-                <h1>SignIn</h1>
-                <ArrowRight size={18} strokeWidth={2} />
-              </button>
-            </SignInButton>
+            <button className="relative bg-background cursor-pointer text-sm font-semibold px-6 py-2 gap-2 rounded-full flex items-center justify-center">
+              <Link href="/signup">SignIn</Link>
+              <ArrowRight size={18} strokeWidth={2} />
+            </button>
           </SignedOut>
 
           <SignedIn>
