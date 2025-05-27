@@ -11,7 +11,7 @@ export const useSaveWallpaper = () => {
   const router = useRouter();
   const saveWallpaper = async (formData: FormData) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         "/api/v1/wallpaper/saveWallpaper",
         formData,
         {
@@ -44,7 +44,6 @@ export const useSaveWallpaper = () => {
     userId: string | undefined,
     platform: string,
     backgroundImage: string | undefined,
-    githubDataString: string,
     theme: string
   ) => {
     setLoading(true);
@@ -80,7 +79,6 @@ export const useSaveWallpaper = () => {
       }
       formData.append("githubUsername", githubUsername as string);
       formData.append("userId", userId as string);
-      formData.append("githubData", githubDataString);
       formData.append("theme", theme);
 
       await saveWallpaper(formData);
