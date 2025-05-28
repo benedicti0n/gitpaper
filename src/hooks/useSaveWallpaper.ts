@@ -1,6 +1,6 @@
 "use client";
 
-import { useLoadingStore } from "@/store";
+import { ImageEntry, useLoadingStore } from "@/store";
 import axios from "axios";
 import { toPng } from "html-to-image";
 import { useRouter } from "next/navigation";
@@ -44,7 +44,8 @@ export const useSaveWallpaper = () => {
     userId: string | undefined,
     platform: string,
     backgroundImage: string | undefined,
-    theme: string
+    theme: string,
+    data: ImageEntry[]
   ) => {
     setLoading(true);
     if (!componentRef.current) {
@@ -80,6 +81,7 @@ export const useSaveWallpaper = () => {
       formData.append("githubUsername", githubUsername as string);
       formData.append("userId", userId as string);
       formData.append("theme", theme);
+      formData.append("bentoMiniImages", JSON.stringify(data));
 
       await saveWallpaper(formData);
       router.push("/dashboard");

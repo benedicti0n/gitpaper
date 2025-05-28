@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { useSaveWallpaper } from "@/hooks/useSaveWallpaper";
 import { useClerk, useSession, useUser } from "@clerk/nextjs";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObject<HTMLDivElement | null> }) => {
   const { isLoading, setLoading } = useLoadingStore()
@@ -19,7 +18,6 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
   const { data } = useImageUploadStore();
   const { githubData } = useGithubDataStore()
   const githubUsername = githubData?.userDetails.username
-  const githubDataString = JSON.stringify(githubData)
   const backgroundImageEntry = data.find(entry => entry.position === "Background");
 
   const { handleSave } = useSaveWallpaper();
@@ -69,7 +67,7 @@ const ControlLayout = ({ bentoComponentRef }: { bentoComponentRef: React.RefObje
                 router.push("/dashboard");
               } else if (userId && platform) {
                 setLoading(true)
-                await handleSave(bentoComponentRef, githubUsername, userId, platform, backgroundImageEntry?.imgUrl, githubDataString, currentPalette.name);
+                await handleSave(bentoComponentRef, githubUsername, userId, platform, backgroundImageEntry?.imgUrl, currentPalette.name, data);
                 setLoading(false)
               }
             }}

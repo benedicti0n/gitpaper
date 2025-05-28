@@ -38,6 +38,7 @@ model UserWallpaper {
   bentoLink           String   @default("")
   githubUsername      String   @default("")
   theme               String   @default("")
+  bentoMiniImages     String   @default("")
   user                User     @relation(fields: [userId], references: [id])
 }
 
