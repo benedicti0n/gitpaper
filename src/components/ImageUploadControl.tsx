@@ -76,20 +76,20 @@ export function ImageUploadControl() {
           </Select>
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center">
         <Input
           type="text"
           placeholder="Paste image URL"
           value={imgUrl}
           onChange={(e) => handleimgUrlChange(e.target.value)}
-          className="w-1/2 bg-white text-black"
+          className="bg-white text-black"
         />
-        <Input
+        {/* <Input
           type="file"
           accept="image/*"
           onChange={handleFileUpload}
           className="w-1/2 bg-white text-black"
-        />
+        /> */}
       </div>
     </div>
   );
