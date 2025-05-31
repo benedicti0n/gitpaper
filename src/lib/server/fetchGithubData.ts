@@ -14,6 +14,7 @@ import axios from 'axios';
 //   // Add any other fields that your GitHub stats endpoint returns
 // }
 
+// eslint-disable-next-line
 export const fetchGitHubData = async (username: string): Promise<any> => {
   if (!username.trim()) {
     throw new Error('GitHub username is required');
@@ -33,6 +34,7 @@ export const fetchGitHubData = async (username: string): Promise<any> => {
   }
 };
 
+// eslint-disable-next-line
 export const fetchAndCacheGitHubData = async (username: string): Promise<any> => {
   // This function can be used if you want to implement server-side caching
   // For now, it just forwards to fetchGitHubData

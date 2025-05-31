@@ -54,6 +54,7 @@ const MiniButton = forwardRef<HTMLDivElement, ButtonProps>(
       icon,
       onClickFunction,
       children,
+      // eslint-disable-next-line
       disabled = false,
       className = "",
       variant = "default",

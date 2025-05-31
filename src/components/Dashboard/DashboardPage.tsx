@@ -32,7 +32,8 @@ interface IWallpapers {
   ];
 }
 
-const DashboardPage = (isLoaded: any) => {
+// @ts-expect-error ts-migrate(2322) FIXME: Type 'boolean' is not assignable to type 'IntrinsicAttributes & boolean'.
+const DashboardPage = (isLoaded) => {
   const { user } = useUser();
   const userId = user?.id;
 

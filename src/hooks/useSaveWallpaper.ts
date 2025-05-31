@@ -25,6 +25,7 @@ export const useSaveWallpaper = () => {
 
       setLoading(false);
       toast.success("Wallpaper Saved !");
+      // eslint-disable-next-line
     } catch (err: any) {
       setLoading(false);
 

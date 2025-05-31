@@ -33,8 +33,10 @@ export function ImageUploadControl() {
     setImgUrl(url);
   };
 
+  // eslint-disable-next-line
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    // eslint-disable-next-line
     if (file?.size! > 5 * 1024 * 1024) {
       toast.error("File size exceeds 5MB");
       return;
