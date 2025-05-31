@@ -28,12 +28,14 @@ export async function GET() {
         console.log(`Starting capture for ${userWallpapers.length} wallpapers`);
 
         // 2. Launch the browser once
-        browser = await puppeteer.launch({
+        const browser = await puppeteer.launch({
             args: chromium.args,
             defaultViewport: { width: 2000, height: 2000 },
-            executablePath: await chromium.executablePath(),
-            headless: true,
-        });
+            executablePath: process.env.NODE_ENV === 'development'
+                ? undefined // use local Chrome
+                : await chromium.executablePath(),
+            headless: chromium.headless,
+        })
 
         // 3. Process each wallpaper
         for (const wallpaper of userWallpapers) {
