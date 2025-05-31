@@ -82,6 +82,7 @@ export async function GET() {
         );
     } finally {
         if (browser) {
+            // @ts-expect-error idk
             await browser.close();
         }
     }
