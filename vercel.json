@@ -1,13 +1,37 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/capture",
+      "dest": "/api/capture"
+    }
+  ],
   "crons": [
     {
       "path": "/api/capture",
       "schedule": "0 0 * * *"
     }
   ],
+  "functions": {
+    "src/app/api/capture/route.ts": {
+      "memory": 2048,
+      "maxDuration": 120,
+      "includeFiles": [
+        "node_modules/puppeteer/.local-chromium/**"
+      ]
+    }
+  },
   "build": {
     "env": {
-      "NODE_OPTIONS": "--max-old-space-size=3000"
+      "NODE_ENV": "production",
+      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true",
+      "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/google-chrome-stable"
     }
   }
 }

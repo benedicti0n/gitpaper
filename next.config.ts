@@ -1,13 +1,16 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Add your existing config options here
-
-  webpack(config, { isServer }) {
-    if (isServer) {
-      config.externals.push({
-        'puppeteer-core': 'commonjs puppeteer-core',
-      });
+  experimental: {
+    serverComponentsExternalPackages: ['@sparticuz/chromium-min', 'puppeteer-core'],
+  },
+  output: 'standalone',
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
     }
     return config;
   },
