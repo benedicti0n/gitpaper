@@ -13,7 +13,7 @@ const Watermark = () => {
                 color: `${currentPalette.textColor}`,
             }}
         >
-            <div className='bg-white text-black font-[ChivoMedium] rounded-lg px-4 py-1 text-sm flex justify-center items-center'>
+            <div className='bg-white text-black font-[ChivoMedium] rounded-lg px-4 py-1 text-xs flex justify-center items-center'>
                 Made With
                 {/* eslint-disable-next-line */}
                 <img src="/logo.png" alt="logo" className='h-6 w-6' />

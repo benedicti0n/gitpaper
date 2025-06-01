@@ -9,8 +9,6 @@ export const fetchUserDetails = async (username: string): Promise<UserDetails> =
         }
       }
     `;
-    console.log("inside fetchUserDetails");
-
 
     const response: GitHubResponse = await githubGraphql({
         query,
@@ -18,9 +16,6 @@ export const fetchUserDetails = async (username: string): Promise<UserDetails> =
     });
 
     const { user } = response;
-
-    console.log(user);
-
 
     const userDetails: UserDetails = getUserStats(user);
     userDetails.username = username;
