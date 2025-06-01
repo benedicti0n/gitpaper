@@ -1,4 +1,3 @@
-// app/api/save-bento/route.ts
 import { NextResponse } from 'next/server';
 import s3 from '@/lib/s3';
 import { PutObjectCommand } from '@aws-sdk/client-s3';

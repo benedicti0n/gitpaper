@@ -5,53 +5,23 @@ import { useSearchParams } from 'next/navigation';
 import { useGithubDataStore, useColorPaletteStore, useImageUploadStore, ImageEntry } from '@/store';
 import { toPng } from 'html-to-image';
 import Bento from '@/components/BentoComponents/BentoLayout/Bento';
+import axios from 'axios';
 
 const Page = () => {
     const { setGithubData } = useGithubDataStore();
     const { setData } = useImageUploadStore();
     const { setCurrentPalette } = useColorPaletteStore();
     const [isRendering, setIsRendering] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
     const componentRef = useRef<HTMLDivElement>(null);
     const searchParams = useSearchParams();
-
     const githubUsername = searchParams.get('githubUsername');
     const theme = searchParams.get('theme');
     const bentoMiniImagesParam = searchParams.get('bentoMiniImages');
     const imageName = searchParams.get('imageName');
+    const [hasComponentRef, setHasComponentRef] = useState(false);
 
-    const captureAndSendBento = async () => {
-        if (!componentRef.current) return;
-
-        try {
-            const dataUrl = await toPng(componentRef.current, {
-                cacheBust: true,
-                pixelRatio: 2,
-                quality: 1,
-            });
-            const blob = await (await fetch(dataUrl)).blob();
-
-            const formData = new FormData();
-            formData.append('bentoImage', blob);
-            formData.append('bentoImageName', imageName as string);
-
-            // Send to your API endpoint
-            const result = await fetch('/api/save-bento', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!result.ok) {
-                throw new Error('Failed to save Bento');
-            }
-
-            console.log('Bento saved successfully');
-        } catch (error) {
-            console.error('Error capturing Bento:', error);
-        } finally {
-            setIsRendering(false);
-        }
-    };
-
+    // Set up theme and images when component mounts
     useEffect(() => {
         if (theme) {
             setCurrentPalette(theme);
@@ -68,32 +38,85 @@ const Page = () => {
             }
         }
 
-        const fetchData = async () => {
-            if (githubUsername) {
-                try {
-                    const response = await fetch(`/api/github?username=${encodeURIComponent(githubUsername)}`);
-                    const data = await response.json();
-                    setGithubData(data);
+        // Mark component as mounted after initial render
+        setIsMounted(true);
+    }, [theme, bentoMiniImagesParam, setCurrentPalette, setData]);
 
-                    // Start capture after data is loaded and component is rendered
-                    setTimeout(captureAndSendBento, 1000); // Small delay to ensure rendering is complete
-                } catch (error) {
-                    console.error('Error fetching GitHub data:', error);
-                    setIsRendering(false);
-                }
+    const captureAndSendBento = async () => {
+        if (!componentRef.current) {
+            console.error('Component ref is not available');
+            return false;
+        }
+
+        try {
+            console.log('Starting image capture...');
+
+            const dataUrl = await toPng(componentRef.current, {
+                cacheBust: true,
+                pixelRatio: 2,
+                quality: 1,
+            });
+
+            console.log('Image captured, converting to blob...');
+            const blob = await (await fetch(dataUrl)).blob();
+
+            const formData = new FormData();
+            formData.append('bentoImage', blob);
+            formData.append('bentoImageName', imageName as string);
+
+            console.log('Sending to server...');
+            const result = await axios.post('/api/v1/wallpaper/saveBentoInServer', formData);
+
+            if (result.status !== 200) {
+                throw new Error('Failed to save Bento');
+            }
+
+            console.log('Bento saved successfully');
+            return true;
+        } catch (error) {
+            console.error('Error in captureAndSendBento:', error);
+            throw error;
+        }
+    };
+
+    // Fetch GitHub data and capture Bento after component is mounted
+    useEffect(() => {
+        if (!isMounted || !githubUsername) return;
+
+        const fetchData = async () => {
+            try {
+                console.log('Fetching GitHub data...');
+                const response = await axios.post(`/api/v1/github/fetchGithubStats`, {
+                    username: githubUsername,
+                });
+                setGithubData(response.data);
+
+                // Small delay to ensure the Bento component has updated with the new data
+
+                console.log('Attempting to capture Bento...');
+                setIsRendering(false);
+                setHasComponentRef(true);
+            } catch (error) {
+                console.error('Error in fetchDataAndCapture:', error);
+                setIsRendering(false);
             }
         };
 
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [githubUsername, theme, bentoMiniImagesParam, setCurrentPalette, setData, setGithubData]);
+    }, [githubUsername, isMounted, setGithubData]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            captureAndSendBento();
+        }, 1000);
+    }, [hasComponentRef]);
 
     if (!githubUsername || !imageName) {
         return <div>Missing required parameters</div>;
     }
 
     if (isRendering) {
-        return <div>Rendering Bento...</div>;
+        return <div>Loading Bento data and capturing image...</div>;
     }
 
     return <Bento bentoComponentRef={componentRef} />;

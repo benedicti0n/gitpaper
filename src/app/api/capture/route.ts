@@ -1,7 +1,6 @@
 // app/api/capture/route.ts
 import { NextResponse } from 'next/server';
-import chromium from '@sparticuz/chromium-min';
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 import { prisma } from '@/lib/prisma';
 
 // This will run via cron job
@@ -28,14 +27,26 @@ export async function GET() {
         console.log(`Starting capture for ${userWallpapers.length} wallpapers`);
 
         // 2. Launch the browser once
+        // Simple browser launch configuration
         const browser = await puppeteer.launch({
-            args: chromium.args,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--no-first-run',
+                '--no-zygote',
+                '--single-process',
+                '--disable-gpu',
+                '--disable-software-rasterizer'
+            ],
+            headless: true,
             defaultViewport: { width: 2000, height: 2000 },
-            executablePath: process.env.NODE_ENV === 'development'
-                ? undefined // use local Chrome
-                : await chromium.executablePath(),
-            headless: chromium.headless,
-        })
+            ...(process.env.NODE_ENV === 'production' && {
+                executablePath: '/usr/bin/google-chrome-stable'
+            })
+        });
+
 
         // 3. Process each wallpaper
         for (const wallpaper of userWallpapers) {
@@ -57,6 +68,7 @@ export async function GET() {
                     waitUntil: 'networkidle0',
                     timeout: 30000
                 });
+                console.log(`Screenshot taken for user: ${wallpaper.githubUsername}`);
             } catch (error) {
                 console.error(`Error processing wallpaper for ${wallpaper.githubUsername}:`, error);
             } finally {
@@ -87,7 +99,3 @@ export async function GET() {
         }
     }
 }
-
-// Required for Vercel to recognize this as an Edge Function
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
