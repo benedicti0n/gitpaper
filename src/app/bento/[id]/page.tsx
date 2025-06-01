@@ -109,6 +109,7 @@ const Page = () => {
         setTimeout(() => {
             captureAndSendBento();
         }, 1000);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasComponentRef]);
 
     if (!githubUsername || !imageName) {
