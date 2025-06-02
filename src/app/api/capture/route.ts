@@ -1,7 +1,12 @@
 // app/api/capture/route.ts
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import { prisma } from '@/lib/prisma';
+
+// Configure Chromium for production
+chromium.setHeadlessMode = true;
+chromium.setGraphicsMode = false;
 
 // This will run via cron job
 export async function GET() {
@@ -26,27 +31,22 @@ export async function GET() {
 
         console.log(`Starting capture for ${userWallpapers.length} wallpapers`);
 
-        // 2. Launch the browser once
-        // Simple browser launch configuration
-        const browser = await puppeteer.launch({
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--no-first-run',
-                '--no-zygote',
-                '--single-process',
-                '--disable-gpu',
-                '--disable-software-rasterizer'
-            ],
-            headless: true,
-            defaultViewport: { width: 2000, height: 2000 },
-            ...(process.env.NODE_ENV === 'production' && {
-                executablePath: '/usr/bin/google-chrome-stable'
-            })
-        });
-
+        // 2. Configure browser based on environment
+        const isDev = process.env.NODE_ENV === 'development';
+        
+        if (isDev) {
+            // Development configuration with local Chrome
+            browser = await launchLocalBrowser();
+        } else {
+            // Production configuration with @sparticuz/chromium
+            console.log('Using @sparticuz/chromium for production');
+            browser = await puppeteer.launch({
+                args: chromium.args,
+                defaultViewport: { width: 1920, height: 1080 },
+                executablePath: await chromium.executablePath(),
+                headless: true
+            });
+        }
 
         // 3. Process each wallpaper
         for (const wallpaper of userWallpapers) {
@@ -55,19 +55,25 @@ export async function GET() {
             try {
                 console.log(`Processing wallpaper for user: ${wallpaper.githubUsername}`);
 
-                // 3.2 Extract image name from bentoLink
+                // Extract image name from bentoLink
                 const imageName = wallpaper.bentoLink?.split('/').pop();
                 if (!imageName) {
                     console.error(`No image name found in bentoLink for user ${wallpaper.githubUsername}`);
                     continue;
                 }
 
-                // 3.3 Take screenshot of the bento page
+                // Take screenshot of the bento page
                 page = await browser.newPage();
-                await page.goto(`${process.env.NEXT_PUBLIC_APP_URL}/bento/${wallpaper.id}?serverCapture=true&githubUsername=${wallpaper.githubUsername}&theme=${wallpaper.theme}&bentoMiniImages=${wallpaper.bentoMiniImages}&imageName=${imageName}`, {
-                    waitUntil: 'networkidle0',
-                    timeout: 30000
-                });
+                await page.goto(
+                    `${process.env.NEXT_PUBLIC_APP_URL}/bento/${wallpaper.id}?` + 
+                    `serverCapture=true&githubUsername=${wallpaper.githubUsername}` + 
+                    `&theme=${wallpaper.theme}&bentoMiniImages=${wallpaper.bentoMiniImages}` + 
+                    `&imageName=${imageName}`, 
+                    {
+                        waitUntil: 'networkidle0',
+                        timeout: 30000
+                    }
+                );
                 console.log(`Screenshot taken for user: ${wallpaper.githubUsername}`);
             } catch (error) {
                 console.error(`Error processing wallpaper for ${wallpaper.githubUsername}:`, error);
@@ -94,8 +100,57 @@ export async function GET() {
         );
     } finally {
         if (browser) {
-            // @ts-expect-error idk
             await browser.close();
         }
     }
+}
+
+async function launchLocalBrowser() {
+    const isMac = process.platform === 'darwin';
+    const isWindows = process.platform === 'win32';
+    let chromeExecutablePath = process.env.CHROME_EXECUTABLE_PATH;
+
+    if (!chromeExecutablePath) {
+        if (isMac) {
+            chromeExecutablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+        } else if (isWindows) {
+            chromeExecutablePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+        } else {
+            // Try common Linux paths
+            const possibleLinuxPaths = [
+                '/usr/bin/google-chrome',
+                '/usr/bin/chromium',
+                '/usr/bin/chromium-browser',
+                '/snap/bin/chromium'
+            ];
+            const { existsSync } = await import('fs');
+            chromeExecutablePath = possibleLinuxPaths.find(path => existsSync(path));
+            
+            if (!chromeExecutablePath) {
+                throw new Error('Could not find Chrome/Chromium installation. Please set CHROME_EXECUTABLE_PATH environment variable.');
+            }
+        }
+    }
+
+    console.log(`Using local Chrome executable: ${chromeExecutablePath}`);
+
+    return puppeteer.launch({
+        headless: true,
+        executablePath: chromeExecutablePath,
+        defaultViewport: { width: 1920, height: 1080 },
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu',
+            '--disable-software-rasterizer',
+            '--disable-features=site-per-process',
+            '--shm-size=3gb',
+            '--window-size=1920,1080'
+        ]
+    });
 }
