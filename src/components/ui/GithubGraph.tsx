@@ -6,7 +6,7 @@ import { Activity, ActivityCalendar } from "react-activity-calendar";
 type GithubGraphProps = {
   username: string;
   blockMargin?: number;
-  colorPallete?: string[];
+  colorPallete: string[];
   scrollbarColor1: string;
   scrollbarColor2: string;
 };
@@ -42,26 +42,37 @@ const GithubGraph = ({
 
   return (
     <>
-      <ActivityCalendar
-        style={{
-          scrollbarColor: `${scrollbarColor1} ${scrollbarColor2}`,
-          scrollbarWidth: 'thin',
-        }}
-        data={contribution}
-        maxLevel={4}
-        blockMargin={blockMargin ?? 2}
-        loading={loading}
-        labels={label}
-        theme={{
-          dark: colorPallete ?? [
-            "#ebedf0",
-            "#9be9a8",
-            "#40c463",
-            "#30a14e",
-            "#216e39",
-          ],
-        }}
-      />
+      <div className="w-full h-full overflow-auto">
+        <style jsx>{`
+          ::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+          }
+          ::-webkit-scrollbar-track {
+            background: ${scrollbarColor2};
+            border-radius: 3px;
+          }
+          ::-webkit-scrollbar-thumb {
+            background: ${scrollbarColor1};
+            border-radius: 3px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: ${scrollbarColor1};
+          }
+        `}</style>
+        <ActivityCalendar
+          data={contribution}
+          maxLevel={4}
+          blockMargin={blockMargin ?? 2}
+          loading={loading}
+          labels={label}
+          theme={{
+            light: colorPallete,
+            dark: colorPallete,
+          }}
+          colorScheme="light"
+        />
+      </div>
     </>
   );
 };
