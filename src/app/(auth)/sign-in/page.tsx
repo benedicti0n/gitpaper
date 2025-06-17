@@ -1,6 +1,6 @@
 'use client'
 
-import { SignUp } from "@clerk/nextjs";
+import { SignIn } from "@clerk/nextjs";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 
 export default function SignUpPage() {
@@ -8,7 +8,8 @@ export default function SignUpPage() {
         <div className="min-h-screen bg-background">
             <NavBar />
             <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
-                <SignUp
+                <SignIn
+                    forceRedirectUrl="/dashboard"
                     appearance={{
                         elements: {
                             formButtonPrimary:

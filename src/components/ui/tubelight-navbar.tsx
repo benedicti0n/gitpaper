@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useNavStore } from "@/store" // Import Zustand store
 import { ArrowRight, DollarSign, Home, LucideIcon, User } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { SignedIn, SignedOut, UserButton, useSession } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton, useSession } from "@clerk/nextjs"
 import { GlowEffect } from "./glow-effect"
 import { usePathname } from "next/navigation"
 
@@ -113,10 +113,12 @@ export function NavBar({ className }: NavBarProps) {
               duration={3}
               scale={0.9}
             />
-            <button className="relative bg-background cursor-pointer text-sm font-semibold px-6 py-2 gap-2 rounded-full flex items-center justify-center">
-              <Link href="/signup">SignIn</Link>
-              <ArrowRight size={18} strokeWidth={2} />
-            </button>
+            <SignInButton>
+              <button className="relative bg-background cursor-pointer text-sm font-semibold px-6 py-2 gap-2 rounded-full flex items-center justify-center">
+                <Link href="/signup">SignIn</Link>
+                <ArrowRight size={18} strokeWidth={2} />
+              </button>
+            </SignInButton>
           </SignedOut>
 
           <SignedIn>
@@ -127,9 +129,11 @@ export function NavBar({ className }: NavBarProps) {
               duration={3}
               scale={0.9}
             />
-            <button className="relative bg-background cursor-pointer text-sm font-semibold rounded-full flex items-center justify-center">
-              <UserButton />
-            </button>
+            <SignOutButton>
+              <button className="relative bg-background cursor-pointer text-sm font-semibold rounded-full flex items-center justify-center">
+                <UserButton />
+              </button>
+            </SignOutButton>
           </SignedIn>
         </div>
       </div>
