@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Section from "./Section";
 import { DotPattern } from "../magicui/dot-pattern";
 import { Skeleton } from "../ui/skeleton";
+import DownloadExtention from "../DownloadExtention/DownloadExtenion";
 
 interface IWallpapers {
   extension: [
@@ -98,6 +99,7 @@ const DashboardPage = (isLoaded) => {
           </div>
         </div>
       </div>
+      <DownloadExtention />
     </div>
   );
 };

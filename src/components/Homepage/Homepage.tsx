@@ -12,6 +12,7 @@ import BentoLayout from '../BentoComponents/BentoLayout/BentoLayout'
 import { useGithubDataStore } from '@/store'
 import { useLoadingStore } from '@/store'
 import { DotPattern } from '../magicui/dot-pattern'
+import DownloadExtention from '../DownloadExtention/DownloadExtenion'
 
 const Homepage = () => {
     const [username, setUsername] = useState<string>("");
