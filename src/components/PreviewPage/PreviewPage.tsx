@@ -6,6 +6,7 @@ import { Button } from '../ui/button'
 import { Check, Link } from 'lucide-react'
 import { GlowEffect } from '../ui/glow-effect'
 import MiniButton from '../ui/MiniButton'
+import { Skeleton } from '../ui/skeleton'
 
 type IWallpaper = {
     bentoLink: string;
@@ -33,7 +34,12 @@ const PreviewPage = () => {
     }, [])
 
     if (!wallpaper) {
-        return <div>Loading...</div>
+        return (
+            <div className='w-full h-screen flex justify-center items-center'>
+                <Skeleton className='h-[72%] w-[57%]' />
+            </div>
+        )
+
     }
 
     return (
