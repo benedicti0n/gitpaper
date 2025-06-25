@@ -34,6 +34,7 @@ const ColorPalleteControl = () => {
                     <SelectItem value="Forest Green">Forest Green</SelectItem>
                     <SelectItem value="Ellie's Purple">{`Ellie's Purple`}</SelectItem>
                     <SelectItem value="Earth Tone">Earth Tone</SelectItem>
+                    <SelectItem value="Monochrome">Monochrome</SelectItem>
                 </SelectContent>
             </Select>
         </div>

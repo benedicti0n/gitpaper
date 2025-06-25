@@ -99,3 +99,20 @@ export const earthTonesPalette: IColorPallete = {
         4: "#634d3b", // Dark brown
     }
 };
+
+export const monochromePalette: IColorPallete = {
+    name: "Monochrome",
+    bgColor: "#ffffff", // Pure white
+    main1: "#c0c0c0",   // Darker light gray
+    main2: "#8f8f8f",   // Darker medium gray
+    main3: "#505050",   // Dark gray
+    main4: "#1a1a1a",   // Almost black
+    textColor: "#ffffff", // White for dark-on-light contrast
+    githubHeatmap: {
+        0: "#ffffff", // White
+        1: "#cccccc", // Light gray
+        2: "#a6a6a6", // Medium gray
+        3: "#737373", // Darker gray
+        4: "#404040", // Dark gray
+    }
+};

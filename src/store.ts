@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { persist } from 'zustand/middleware';
-import { IColorPallete, coolBluePalette, warmSunsetPalette, forestGreenPalette, vividPurplePalette, earthTonesPalette } from "@/components/colorHues"
+import { IColorPallete, coolBluePalette, warmSunsetPalette, forestGreenPalette, vividPurplePalette, earthTonesPalette, monochromePalette } from "@/components/colorHues"
 
 interface NavStore {
     activeTab: string;
@@ -94,6 +94,8 @@ const getPaletteByName = (name: string): IColorPallete => {
             return vividPurplePalette;
         case "Earth Tone":
             return earthTonesPalette;
+        case "Monochrome":
+            return monochromePalette;
         default:
             return coolBluePalette;
     }
