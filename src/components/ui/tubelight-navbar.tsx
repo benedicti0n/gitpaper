@@ -4,7 +4,7 @@ import React, { useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useNavStore } from "@/store" // Import Zustand store
-import { ArrowRight, DollarSign, Home, LucideIcon, User } from "lucide-react"
+import { ArrowRight, Home, LucideIcon, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton, useSession } from "@clerk/nextjs"
 import { GlowEffect } from "./glow-effect"
